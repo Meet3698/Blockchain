@@ -167,7 +167,7 @@ def add_transaction():
     transaction_keys = ['sender','receiver','amount']
     if not all ( key in keys for key in transaction_keys):
         return 'Some elements of the transaction are missing!!', 400
-    index = blockchain.add_transaction(json['sender'],json['receiver'],json['amount'])
+    index = blockchain.add_transaction(keys['sender'],keys['receiver'],keys['amount'])
     response = {
         'message' : f'This transaction will be added to block {index}'
     }
