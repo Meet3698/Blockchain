@@ -22,7 +22,7 @@ def main():
                 except:
                     pass
 
-                if randint(1,20) ==1:
+                if randint(1,5) ==1:
                     try:
                         server = Server()
                     except KeyboardInterrupt:

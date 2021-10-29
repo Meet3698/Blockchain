@@ -2,7 +2,7 @@ import socket, threading, sys, time
 from random import randint
 
 BYTE_SIZE = 1024
-HOST = '127.0.0.1'
+HOST = '0.0.0.0'
 PORT = 5000
 PEER_BYTE_DIFFERENTIATOR = b'\x11'
 RAND_TIME_START = 1

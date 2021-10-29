@@ -25,6 +25,7 @@ class Server:
 
         try:
             while True:
+                # connection.send()
                 data = connection.recv(BYTE_SIZE)
                 for connection in self.connections:
                     connection.send(data)

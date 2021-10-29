@@ -10,9 +10,9 @@ class Client:
         self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.s.connect((addr, PORT))
 
-        thread_init = threading.Thread(target=self.send_message)
-        thread_init.daemon = True
-        thread_init.start()
+        # thread_init = threading.Thread(target=self.send_message)
+        # thread_init.daemon = True
+        # thread_init.start()
 
         while True:
             data = self.s.recv(BYTE_SIZE)
@@ -28,7 +28,8 @@ class Client:
 
     def update_peers(self, peers):
         p2p.peers = str(peers, "utf-8").split(',')[:-1]
+        print('Peers In Network : ',p2p.peers)
 
-    def send_message(self):
-        while True:
-            self.s.send(bytes(input("Enter msg : "),'utf-8'))
+    # def send_message(self):
+    #     while True:
+    #         self.s.send(bytes(input("Enter msg : "),'utf-8'))
