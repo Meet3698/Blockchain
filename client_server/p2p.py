@@ -13,6 +13,7 @@ def main():
             print("-" * 21 + "Trying to connect" + "-" * 21)
 
             time.sleep(randint(RAND_TIME_START,RAND_TIME_END))
+
             for peer in p2p.peers:
                 try:
                     client = Client(peer)
@@ -24,10 +25,11 @@ def main():
                 try:
                     server = Server()
                 except KeyboardInterrupt:
-                    sys.exit()
+                    sys.exit(0)
                 except:
-                    pass
+                    print("Couldn't start the server!")
         except KeyboardInterrupt as e:
+            print(e)
             sys.exit(0)
 
 if __name__ == "__main__":
