@@ -1,5 +1,5 @@
 from client_server.constants import *
-from client_server.p2p import p2p
+from client_server.p2p import *
 
 class Client:
 
@@ -36,7 +36,7 @@ class Client:
             data = self.s.recv(BYTE_SIZE)
             print(data.decode("utf-8"))
 
-            print("\nRecieved message on the client side is:")
+            print("\nRecieved messge on the client side is:")
 
             if self.previous_data != data:
                 self.previous_data = data
