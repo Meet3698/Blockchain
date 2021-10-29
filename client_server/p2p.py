@@ -22,12 +22,13 @@ def main():
                 except:
                     pass
 
-                try:
-                    server = Server()
-                except KeyboardInterrupt:
-                    sys.exit(0)
-                except:
-                    print("Couldn't start the server!")
+                if randint(1,20) ==1:
+                    try:
+                        server = Server()
+                    except KeyboardInterrupt:
+                        sys.exit(0)
+                    except:
+                        print("Couldn't start the server!")
         except KeyboardInterrupt as e:
             print(e)
             sys.exit(0)

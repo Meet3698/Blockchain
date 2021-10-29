@@ -67,5 +67,4 @@ class Server:
 
         for connection in self.connections:
             data = PEER_BYTE_DIFFERENTIATOR + bytes(peer_list, 'utf-8')
-            print("data == ",data)
             connection.send(data)
