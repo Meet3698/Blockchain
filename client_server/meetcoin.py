@@ -13,46 +13,23 @@ from flask import Flask, jsonify, request
 import requests
 from urllib.parse import urlparse
 from uuid import uuid4
-# from client_server.p2p import *
+
+from p2p import *
 from client_server.client import *
 from client_server.constants import *
 from client_server.server import *
 
+
 #Creating Blockchain
 class Blockchain:
-    peers = ['127.0.0.1']
+    
     #Intializing Genesis Block and Empty Chain
     def __init__(self):
         self.chain = []
         self.transactions = []
         self.create_block(proof = 1, previous_hash = '0')
         self.nodes = set()
-
-        while True:
-            try:
-                print("-" * 21 + "Trying to connect" + "-" * 21)
-
-                time.sleep(randint(RAND_TIME_START,RAND_TIME_END))
-
-                for peer in self.peers:
-                    try:
-                        client = Client(peer)
-                    except KeyboardInterrupt:
-                        sys.exit(0)
-                    except:
-                        pass
-
-                    if randint(1,3) ==1:
-                        try:
-                            server = Server()
-                        except KeyboardInterrupt:
-                            sys.exit(0)
-                        except:
-                            print("Couldn't start the server!")
-            except KeyboardInterrupt as e:
-                print(e)
-                sys.exit(0)   
-
+    
     #creating block and add to the chain
     def create_block(self, proof, previous_hash):
         block = {
@@ -117,8 +94,9 @@ class Blockchain:
         return previous_block['index'] + 1
 
     def add_node(self, address):
-        parsed_url = urlparse(address)
-        self.nodes.add(parsed_url.netloc)
+        self.nodes.add(address)
+        # parsed_url = urlparse(address)
+        # self.nodes.add(parsed_url.netloc)
 
     def replace_chain(self):
         network = self.nodes
@@ -143,6 +121,7 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 
 #Creating an address for the node on port 5000
 node_address = str(uuid4()).replace('-','')
+
 
 blockchain = Blockchain()
 
@@ -204,8 +183,9 @@ def add_transaction():
 @app.route('/connect_node', methods = ['GET'])
 def connect_node():
     # nodes = json.loads(request.get_data())['nodes']
-    nodes = blockchain.peers
-    
+    nodes = p2p.peers
+    print(nodes)
+
     if nodes is None:
         return 'No Node', 400
     for node in nodes:
@@ -234,4 +214,32 @@ def replace_chain():
     
     return jsonify(response), 200
 
-app.run(host = '127.0.0.1',port = 5001)
+@app.route('/connect_network',methods=['GET'])
+def connect_network():
+    while True:
+        try:
+            print("-" * 21 + "Trying to connect" + "-" * 21)
+
+            time.sleep(randint(RAND_TIME_START,RAND_TIME_END))
+
+            for peer in p2p.peers:
+                try:
+                    client = Client(peer)
+                    print(client)
+                except KeyboardInterrupt:
+                    sys.exit(0)
+                except:
+                    pass
+
+                if randint(1,5) ==1:
+                    try:
+                        server = Server()
+                    except KeyboardInterrupt:
+                        sys.exit(0)
+                    except:
+                        print("Couldn't start the server!")
+        except KeyboardInterrupt as e:
+            print(e)
+            sys.exit(0)
+
+app.run(host = '192.168.0.1',port = 5000)

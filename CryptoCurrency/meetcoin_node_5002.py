@@ -13,17 +13,46 @@ from flask import Flask, jsonify, request
 import requests
 from urllib.parse import urlparse
 from uuid import uuid4
+# from client_server.p2p import *
+from client_server.client import *
+from client_server.constants import *
+from client_server.server import *
 
 #Creating Blockchain
 class Blockchain:
-    
+    peers = ['127.0.0.1']
     #Intializing Genesis Block and Empty Chain
     def __init__(self):
         self.chain = []
         self.transactions = []
         self.create_block(proof = 1, previous_hash = '0')
         self.nodes = set()
-    
+
+        while True:
+            try:
+                print("-" * 21 + "Trying to connect" + "-" * 21)
+
+                time.sleep(randint(RAND_TIME_START,RAND_TIME_END))
+
+                for peer in self.peers:
+                    try:
+                        client = Client(peer)
+                    except KeyboardInterrupt:
+                        sys.exit(0)
+                    except:
+                        pass
+
+                    if randint(1,3) ==1:
+                        try:
+                            server = Server()
+                        except KeyboardInterrupt:
+                            sys.exit(0)
+                        except:
+                            print("Couldn't start the server!")
+            except KeyboardInterrupt as e:
+                print(e)
+                sys.exit(0)   
+
     #creating block and add to the chain
     def create_block(self, proof, previous_hash):
         block = {
@@ -108,17 +137,12 @@ class Blockchain:
             self.chain = longest_chain
             return True
 
-
-
-
-
 #Creating web-app
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 
 #Creating an address for the node on port 5000
 node_address = str(uuid4()).replace('-','')
-
 
 blockchain = Blockchain()
 
@@ -128,7 +152,7 @@ def mine_block():
     previous_proof = previous_block['proof']
     proof = blockchain.proof_of_work(previous_proof)
     previous_hash = blockchain.hash(previous_block)
-    blockchain.add_transaction(sender=node_address, receiver='Rahil', amount=1)
+    blockchain.add_transaction(sender=node_address, receiver='Meet', amount=1)
     block = blockchain.create_block(proof, previous_hash)
     
     response = {
@@ -177,9 +201,10 @@ def add_transaction():
 
 #Decentralization
 
-@app.route('/connect_node', methods = ['POST'])
+@app.route('/connect_node', methods = ['GET'])
 def connect_node():
-    nodes = json.loads(request.get_data())['nodes']
+    # nodes = json.loads(request.get_data())['nodes']
+    nodes = blockchain.peers
     
     if nodes is None:
         return 'No Node', 400
