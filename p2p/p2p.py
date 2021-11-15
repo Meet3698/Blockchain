@@ -1,9 +1,24 @@
-from constants import *
+
 from client import *
 from server import *
+import pymongo
 
 class p2p:
-    peers = ['192.168.11.53']
+    peers = []
+    client = pymongo.MongoClient("mongodb+srv://Jack:Jack5972@blockchain.2n0ho.mongodb.net/p2p?retryWrites=true&w=majority")
+    db = client['p2p']
+    collection = db['nodes']
+    
+    if collection.count() == 0:
+        host = socket.gethostbyname(socket.gethostname())
+        print(host)
+        peers.append(host)
+        collection.insert_one({'node':host})
+    else:
+        nodes = collection.find()
+        for node in nodes:
+            peers.append(node['node'])
+    print(peers)
 
 def main():
     while True:
@@ -30,5 +45,6 @@ def main():
 
         except KeyboardInterrupt as e:
             sys.exit(0)
+
 if __name__ == "__main__":
     main()

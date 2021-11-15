@@ -13,10 +13,6 @@ from flask import Flask, jsonify, request
 import requests
 from urllib.parse import urlparse
 from uuid import uuid4
-# from client_server.p2p import *
-from client_server.client import *
-from client_server.constants import *
-from client_server.server import *
 
 #Creating Blockchain
 class Blockchain:
@@ -28,30 +24,30 @@ class Blockchain:
         self.create_block(proof = 1, previous_hash = '0')
         self.nodes = set()
 
-        while True:
-            try:
-                print("-" * 21 + "Trying to connect" + "-" * 21)
+        # while True:
+        #     try:
+        #         print("-" * 21 + "Trying to connect" + "-" * 21)
 
-                time.sleep(randint(RAND_TIME_START,RAND_TIME_END))
+        #         time.sleep(randint(RAND_TIME_START,RAND_TIME_END))
 
-                for peer in self.peers:
-                    try:
-                        client = Client(peer)
-                    except KeyboardInterrupt:
-                        sys.exit(0)
-                    except:
-                        pass
+        #         for peer in self.peers:
+        #             try:
+        #                 client = Client(peer)
+        #             except KeyboardInterrupt:
+        #                 sys.exit(0)
+        #             except:
+        #                 pass
 
-                    if randint(1,3) ==1:
-                        try:
-                            server = Server()
-                        except KeyboardInterrupt:
-                            sys.exit(0)
-                        except:
-                            print("Couldn't start the server!")
-            except KeyboardInterrupt as e:
-                print(e)
-                sys.exit(0)   
+        #             if randint(1,3) ==1:
+        #                 try:
+        #                     server = Server()
+        #                 except KeyboardInterrupt:
+        #                     sys.exit(0)
+        #                 except:
+        #                     print("Couldn't start the server!")
+        #     except KeyboardInterrupt as e:
+        #         print(e)
+        #         sys.exit(0)   
 
     #creating block and add to the chain
     def create_block(self, proof, previous_hash):
@@ -201,7 +197,7 @@ def add_transaction():
 
 #Decentralization
 
-@app.route('/connect_node', methods = ['GET'])
+@app.route('/connect_node', methods = ['POST'])
 def connect_node():
     # nodes = json.loads(request.get_data())['nodes']
     nodes = blockchain.peers
