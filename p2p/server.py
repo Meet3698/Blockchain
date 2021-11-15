@@ -26,7 +26,8 @@ class Server:
 				c_thread.start()
 
 				self.connections.append(connection)
-				print('{} connected!!'.format(connection))
+				self.peers.append(addr)
+				print('{} connected!!'.format(addr))
 		except Exception as e:
 			sys.exit()
 

@@ -13,6 +13,7 @@ from flask import Flask, jsonify, request
 import requests
 from urllib.parse import urlparse
 from uuid import uuid4
+import socket
 
 #Creating Blockchain
 class Blockchain:
@@ -209,4 +210,4 @@ def replace_chain():
     
     return jsonify(response), 200
 
-app.run(host = '127.0.0.1',port = 5000)
+app.run(host = socket.gethostbyname(socket.gethostname()),port = 5000)

@@ -16,9 +16,9 @@ class Client:
 
 		while True:
 
-			r_thread = threading.Thread(target=self.recieve_message)
-			r_thread.start()
-			r_thread.join()
+			# r_thread = threading.Thread(target=self.recieve_message)
+			# r_thread.start()
+			# r_thread.join()
 
 			data = self.recieve_message()
 
@@ -40,7 +40,7 @@ class Client:
 	
 	def recieve_message(self):
 		try:
-			data = self.s.recv(byte_size).decode('utf-8')
+			data = self.s.recv(byte_size)
 			print('Recieved data : {}'.format(data))
 			return data
 		except KeyboardInterrupt:
