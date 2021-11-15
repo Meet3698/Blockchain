@@ -42,6 +42,8 @@ class Server:
 					return
 				elif data and data.decode('utf-8') == 'req':
 					self.send_peers()
+				else:
+					sys.exit()
 		except Exception as e:
 			sys.exit()
 	

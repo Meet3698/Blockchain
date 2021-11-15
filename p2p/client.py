@@ -1,3 +1,4 @@
+from time import sleep
 from constants import *
 from p2p import *
 import requests
@@ -16,7 +17,7 @@ class Client:
 
 		while True:
 
-			# r_thread = threading.Thread(target=self.recieve_message)
+			# r_thread = threading.Thread(target=self.send_message)
 			# r_thread.start()
 			# r_thread.join()
 
@@ -31,10 +32,9 @@ class Client:
 
 	def send_message(self):
 		try:
-			data = str(input('Enter "req" to request data\n\n Enter "bye" to disconnect\n\n'))
-			self.s.send(data.encode('utf-8'))
-
-
+			# data = str(input('Enter "req" to request data\n\n Enter "bye" to disconnect\n\n'))
+			# self.s.send(data.encode('utf-8'))
+			self.s.send('req'.encode('utf-8'))
 		except KeyboardInterrupt as e:
 			print('Disconnected From the server')
 			self.s.send('bye'.encode('utf-8'))
@@ -52,5 +52,6 @@ class Client:
 
 	def update_peers(self,peers):
 		p2p.peers = str(peers,'utf-8').split(',')[:-1]
-		res = requests.get('http://{host}/connect_node')
-		print(res)
+		r = requests.get('http://{host}:5000/get_chain')
+
+		print(r.status_code)
