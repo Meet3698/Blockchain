@@ -14,6 +14,7 @@ import requests
 from urllib.parse import urlparse
 from uuid import uuid4
 import socket
+from p2p import *
 
 #Creating Blockchain
 class Blockchain:
@@ -180,7 +181,7 @@ def add_transaction():
 
 @app.route('/connect_node', methods = ['POST'])
 def connect_node():
-    nodes = json.loads(request.get_data())['nodes']
+    nodes = p2p.peers
     
     if nodes is None:
         return 'No Node', 400
