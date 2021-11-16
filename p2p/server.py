@@ -13,7 +13,7 @@ class Server:
 			self.s.bind((host,port))
 			self.s.listen(1)
 
-			print("-" * 25 + " Server is running " + "-" * 25)
+			print("-" * 25 + " Server is running on " + host + "-" * 25)
 
 			while True:
 				connection, addr = self.s.accept()
