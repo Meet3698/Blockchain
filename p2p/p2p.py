@@ -9,8 +9,14 @@ class p2p:
     db = client['p2p']
     collection = db['nodes']
     
+    import socket
+    def get_ip_address(self):
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        return s.getsockname()[0]
+
     if collection.count() == 0:
-        host = socket.gethostbyname(socket.gethostname())
+        host = get_ip_address()
         print(host)
         peers.append(host)
         collection.insert_one({'node':host})
@@ -48,3 +54,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    
