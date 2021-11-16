@@ -211,4 +211,9 @@ def replace_chain():
     
     return jsonify(response), 200
 
-app.run(host = socket.gethostbyname(socket.gethostname()),port = 5000)
+def get_ip_address():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    return s.getsockname()[0]
+
+app.run(host = get_ip_address(),port = 5000)
