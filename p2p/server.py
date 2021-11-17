@@ -17,6 +17,7 @@ class Server:
 			print("-" * 25 + " Server is running on " + host + "-" * 25)
 			db = DB()
 			nodes = db.collection.find()
+	
 			for node in nodes:
 				db.collection.update_one({'node' : node['node']},{ "$set": { 'node': host } })
 
