@@ -16,14 +16,13 @@ def main():
 
     if db.collection.count() == 0:
         host = get_ip_address()
-        print(host)
         p2p.peers.append(host)
         db.collection.insert_one({'node':host})
     else:
         nodes = db.collection.find()
         for node in nodes:
             p2p.peers.append(node['node'])
-    print(p2p.peers)
+    print('p2p peers -- ',p2p.peers)
 
     while True:
         try:

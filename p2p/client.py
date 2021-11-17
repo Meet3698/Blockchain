@@ -52,8 +52,8 @@ class Client:
 			sys.exit()
 
 	def update_peers(self,peers):
+		print('In update peers --- ', peers)
 		p2p.peers.append(str(peers,'utf-8').split(',')[:-1])
 		query = 'http://' + str(host) + ':5000/connect_node'
 		r = requests.get(query)
-
 		print(r)
