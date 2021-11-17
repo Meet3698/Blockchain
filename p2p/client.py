@@ -1,5 +1,5 @@
 from time import sleep
-from p2p.constants import *
+from constants import *
 import requests
 
 from p2p import p2p

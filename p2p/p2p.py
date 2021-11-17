@@ -1,7 +1,7 @@
 
-from p2p.client import *
-from p2p.server import *
-from p2p.db import *
+from client import *
+from server import *
+from db import *
 
 class p2p:
     peers = []

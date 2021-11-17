@@ -1,5 +1,6 @@
-from p2p.constants import *
-from p2p.db import *
+from constants import *
+from db import *
+
 class Server:
 
 	def __init__(self):
