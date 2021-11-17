@@ -45,7 +45,7 @@ class Client:
 	def recieve_message(self):
 		try:
 			data = self.s.recv(byte_size)
-			print('Recieved data : {}'.format(json.dumps({'data' : data})))
+			print('Recieved data : {}'.format(data))
 
 			return data
 		except KeyboardInterrupt:
