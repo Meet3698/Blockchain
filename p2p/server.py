@@ -18,7 +18,6 @@ class Server:
 			db = DB()
 			nodes = db.collection.find()
 			for node in nodes:
-				print(node)
 				db.collection.update_one({'node' : node['node']},{ "$set": { 'node': host } })
 
 			while True:
