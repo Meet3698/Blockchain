@@ -2,7 +2,7 @@ from time import sleep
 from constants import *
 import requests
 
-from p2p import p2p
+from p2p import *
 
 class Client:
 
@@ -52,7 +52,7 @@ class Client:
 			sys.exit()
 
 	def update_peers(self,peers):
-		p2p.peers = str(peers,'utf-8').split(',')[:-1]
+		p2p().peers = str(peers,'utf-8').split(',')[:-1]
 		query = 'http://' + str(host) + ':5000/connect_node'
 		r = requests.get(query)
 
