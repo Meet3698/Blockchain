@@ -13,7 +13,7 @@ import requests
 from urllib.parse import urlparse
 from uuid import uuid4
 import socket
-from peer import *
+# from peer import *
 
 #Creating Blockchain
 class Blockchain:

@@ -5,6 +5,8 @@ from db import *
 
 class p2p:
     peers = []
+
+def main():
     db = DB()
     
     def get_ip_address():
@@ -15,15 +17,14 @@ class p2p:
     if db.collection.count() == 0:
         host = get_ip_address()
         print(host)
-        peers.append(host)
+        p2p.peers.append(host)
         db.collection.insert_one({'node':host})
     else:
         nodes = db.collection.find()
         for node in nodes:
-            peers.append(node['node'])
-    print(peers)
+            p2p.peers.append(node['node'])
+    print(p2p.peers)
 
-def main():
     while True:
         try:
             print("-"*25 + " Trying to connect " + "-"*25)

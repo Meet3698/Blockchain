@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from blockchain import *
+from peer import *
 
 #Creating web-app
 app = Flask(__name__)
@@ -68,10 +69,10 @@ def add_transaction():
 
 @app.route('/connect_node', methods = ['GET'])
 def connect_node():
-    nodes = p2p().peers
+    nodes = p2p.peers
     
     print('In connect_node --- ',nodes)
-    
+
     if nodes is None:
         return 'No Node', 400
     for node in nodes:
