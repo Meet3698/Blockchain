@@ -18,6 +18,7 @@ class Server:
 			db = DB()
 			nodes = db.collection.find()
 			for node in nodes:
+				print(node)
 				db.collection.update_one({'node' : node['node']},{ "$set": { 'node': host } })
 
 			while True:
@@ -60,6 +61,7 @@ class Server:
 
 	def send_peers(self):
 		peer_list = ""
+		print('In send_peer --- ',self.peers)
 		for peer in self.peers:
 			peer_list = peer_list + str(peer[0]) + ","
 
