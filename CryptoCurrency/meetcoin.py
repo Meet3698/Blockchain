@@ -179,7 +179,7 @@ def add_transaction():
 
 #Decentralization
 
-@app.route('/connect_node', methods = ['POST'])
+@app.route('/connect_node', methods = ['GET'])
 def connect_node():
     nodes = p2p.peers
     

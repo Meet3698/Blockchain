@@ -52,7 +52,7 @@ class Client:
 
 	def update_peers(self,peers):
 		p2p.peers = str(peers,'utf-8').split(',')[:-1]
-		query = 'http://' + str(host) + ':5000/get_chain'
+		query = 'http://' + str(host) + ':5000/connect_node'
 		r = requests.get(query)
 
-		print(r.status_code)
+		print(r)

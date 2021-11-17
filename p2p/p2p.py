@@ -1,26 +1,24 @@
 
 from client import *
 from server import *
-import pymongo
+from db import *
 
 class p2p:
     peers = []
-    client = pymongo.MongoClient("mongodb+srv://Jack:Jack5972@blockchain.2n0ho.mongodb.net/p2p?retryWrites=true&w=majority")
-    db = client['p2p']
-    collection = db['nodes']
+    db = DB()
     
     def get_ip_address():
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(("8.8.8.8", 80))
         return s.getsockname()[0]
 
-    if collection.count() == 0:
+    if db.collection.count() == 0:
         host = get_ip_address()
         print(host)
         peers.append(host)
-        collection.insert_one({'node':host})
+        db.collection.insert_one({'node':host})
     else:
-        nodes = collection.find()
+        nodes = db.collection.find()
         for node in nodes:
             peers.append(node['node'])
     print(peers)

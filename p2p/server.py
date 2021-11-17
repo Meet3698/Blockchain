@@ -1,5 +1,5 @@
 from constants import *
-
+from db import *
 class Server:
 
 	def __init__(self):
@@ -14,6 +14,10 @@ class Server:
 			self.s.listen(1)
 
 			print("-" * 25 + " Server is running on " + host + "-" * 25)
+			db = DB()
+			nodes = db.collection.find()
+			for node in nodes:
+				db.collection.update_one({'node' : node['node']},{ "$set": { 'node': host } })
 
 			while True:
 				connection, addr = self.s.accept()
@@ -26,7 +30,6 @@ class Server:
 				c_thread.start()
 
 				self.connections.append(connection)
-				self.peers.append(addr)
 				print('{} connected!!'.format(addr))
 		except Exception as e:
 			sys.exit()
