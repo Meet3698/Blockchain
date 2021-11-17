@@ -2,7 +2,7 @@ from time import sleep
 from constants import *
 import requests
 
-from p2p import *
+from peer import *
 
 class Client:
 
