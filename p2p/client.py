@@ -1,3 +1,4 @@
+import json
 from time import sleep
 from constants import *
 import requests
@@ -52,8 +53,10 @@ class Client:
 			sys.exit()
 
 	def update_peers(self,peers):
-		print('In update peers --- ', peers)
+		print('In update peers --- ', str(peers,'utf-8').split(',')[:-1])
 		p2p.peers.append(str(peers,'utf-8').split(',')[:-1])
-		query = 'http://' + str(host) + ':5000/connect_node'
-		r = requests.get(query)
+		print('Updated peers --- ', p2p.peers)
+		sleep(2)
+		url = 'http://' + str(host) + ':5000/connect_node'
+		r = requests.post(url, data = json.dumps({'peer' : p2p.peers}))
 		print(r)

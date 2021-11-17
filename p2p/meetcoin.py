@@ -67,10 +67,12 @@ def add_transaction():
 
 #Decentralization
 
-@app.route('/connect_node', methods = ['GET'])
+@app.route('/connect_node', methods = ['POST'])
 def connect_node():
-    nodes = p2p.peers
-    
+    # nodes = [request.get_data().decode().split('=')[1]]
+    req = json.loads(request.get_data())
+    nodes = req['peer'][0]
+
     print('In connect_node --- ',nodes)
 
     if nodes is None:
