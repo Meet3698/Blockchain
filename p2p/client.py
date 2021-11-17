@@ -2,7 +2,7 @@ from time import sleep
 from p2p.constants import *
 import requests
 
-from p2p.p2p import *
+from p2p import p2p
 
 class Client:
 
