@@ -14,7 +14,7 @@ import requests
 from urllib.parse import urlparse
 from uuid import uuid4
 import socket
-from p2p import *
+from p2p.p2p import *
 
 #Creating Blockchain
 class Blockchain:
@@ -189,6 +189,7 @@ def connect_node():
         blockchain.add_node(node)
     
     print('In the connect_node --- ',nodes)
+
     response = {
         'message' : 'All the nodes are now connected, The Meetcoin blockchain contains the following nodes : }',
         'total_nodes' : list(blockchain.nodes)

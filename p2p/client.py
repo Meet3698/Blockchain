@@ -1,7 +1,8 @@
 from time import sleep
-from constants import *
-from p2p import *
+from p2p.constants import *
 import requests
+
+from p2p.p2p import *
 
 class Client:
 
