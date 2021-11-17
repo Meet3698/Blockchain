@@ -188,6 +188,7 @@ def connect_node():
     for node in nodes:
         blockchain.add_node(node)
     
+    print('In the connect_node --- ',nodes)
     response = {
         'message' : 'All the nodes are now connected, The Meetcoin blockchain contains the following nodes : }',
         'total_nodes' : list(blockchain.nodes)
