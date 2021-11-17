@@ -71,7 +71,7 @@ def add_transaction():
 def connect_node():
     # nodes = [request.get_data().decode().split('=')[1]]
     req = json.loads(request.get_data())
-    nodes = req['peer'][0]
+    nodes = req['peer']
 
     print('In connect_node --- ',nodes)
 
