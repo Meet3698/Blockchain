@@ -70,6 +70,8 @@ def add_transaction():
 def connect_node():
     nodes = p2p().peers
     
+    print('In connect_node --- ',nodes)
+    
     if nodes is None:
         return 'No Node', 400
     for node in nodes:

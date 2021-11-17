@@ -92,9 +92,10 @@ class Blockchain:
         parsed_url = urlparse(address)
         url = parsed_url.path + ':5000'
         self.nodes.add(url)
+        print('In add_node ---',self.nodes)
 
     def replace_chain(self):
-        network = self.nodes
+        network = self.nodes        
         longest_chain = None
         max_length = len(self.chain)
 
