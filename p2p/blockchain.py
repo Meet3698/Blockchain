@@ -95,7 +95,8 @@ class Blockchain:
         print('In add_node ---',self.nodes)
 
     def replace_chain(self):
-        network = self.nodes        
+        network = self.nodes
+        print('In replace chain --- network --- ', network)        
         longest_chain = None
         max_length = len(self.chain)
 
