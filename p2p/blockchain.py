@@ -91,6 +91,7 @@ class Blockchain:
     def add_node(self, address):
         parsed_url = urlparse(address)
         url = parsed_url.path + ':5000'
+        print('URL in add_node --- ',url)
         self.nodes.append(url)
         print('In add_node ---',self.nodes)
 

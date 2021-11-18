@@ -72,12 +72,14 @@ def connect_node():
     # nodes = [request.get_data().decode().split('=')[1]]
     req = json.loads(request.get_data())
     nodes = req['peer']
-
+    blockchain.nodes = []
+    
     print('In connect_node --- ',nodes)
 
     if nodes is None:
         return 'No Node', 400
     for node in nodes:
+        print('Node --- ',node)
         blockchain.add_node(node)
     
     response = {
