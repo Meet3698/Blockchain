@@ -23,7 +23,7 @@ class Blockchain:
         self.chain = []
         self.transactions = []
         self.create_block(proof = 1, previous_hash = '0')
-        self.nodes = set()
+        self.nodes = []
     
     #creating block and add to the chain
     def create_block(self, proof, previous_hash):
@@ -91,7 +91,7 @@ class Blockchain:
     def add_node(self, address):
         parsed_url = urlparse(address)
         url = parsed_url.path + ':5000'
-        self.nodes.add(url)
+        self.nodes.append(url)
         print('In add_node ---',self.nodes)
 
     def replace_chain(self):
