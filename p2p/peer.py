@@ -35,10 +35,10 @@ def main():
                 except KeyboardInterrupt:
                     sys.exit(0)
                 except SystemExit:
-                    if randint(1,5) == 3:
+                    if randint(1,10) == 7:
                         pass
                 except:
-                    if randint(1,5) == 3:
+                    if randint(1,10) == 7:
                         pass
 
                 try:
