@@ -38,9 +38,8 @@ class Client:
 			# self.s.send(data.encode('utf-8'))
 			self.s.send('req'.encode('utf-8'))
 		except KeyboardInterrupt as e:
-			print('Disconnected From the server')
-			self.s.send('bye'.encode('utf-8'))
-			sys.exit()
+			self.send_disconnect_signal()
+
 	
 	def recieve_message(self):
 		try:
@@ -49,9 +48,12 @@ class Client:
 
 			return data
 		except KeyboardInterrupt:
-			print('Disconnected From the server')
-			self.s.send('bye'.encode('utf-8'))
-			sys.exit()
+			self.send_disconnect_signal()
+
+	def send_disconnect_signal(self):
+		print('Disconnected From the server')
+		self.s.send('bye'.encode('utf-8'))
+		sys.exit()
 
 	def update_peers(self,peers):
 		print('In update peers --- ', str(peers,'utf-8').split(',')[:-1])

@@ -1,9 +1,10 @@
 from constants import *
 from db import *
+from blockchain import *
 
 class Server:
 
-	def __init__(self):
+	def __init__(self,s_addr):
 		try:
 			self.connections = []
 			self.peers = []
@@ -15,6 +16,10 @@ class Server:
 			self.s.listen(1)
 
 			print("-" * 25 + " Server is running on " + host + "-" * 25)
+			self.peers.append(s_addr)
+
+			Blockchain.flag = 1
+			print('Flag --- server ----',Blockchain.flag)
 			db = DB()
 			nodes = db.collection.find()
 	
@@ -43,7 +48,7 @@ class Server:
 				print("data recieved...",data)
 
 				if data and data.decode('utf-8') == 'bye':
-					self.disconnect(connection,addr)
+					self.disconnect_client(connection,addr)
 					return
 				elif data and data.decode('utf-8') == 'req':
 					self.send_peers()
@@ -52,12 +57,16 @@ class Server:
 		except Exception as e:
 			sys.exit()
 	
-	def disconnect(self,connection,addr):
+	def disconnect_client(self,connection,addr):
 		self.connections.remove(connection)
 		self.peers.remove(addr)
 		connection.close()
 		self.send_peers()
 		print('{} disconnected!!'.format(addr))
+
+	def disconnect_server(self):
+		Blockchain.flag = 0
+		self.s.close()
 
 	def send_peers(self):
 		peer_list = ""

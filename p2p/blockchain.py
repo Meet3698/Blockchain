@@ -17,14 +17,15 @@ import socket
 
 #Creating Blockchain
 class Blockchain:
-    
+    flag = 0
     #Intializing Genesis Block and Empty Chain
     def __init__(self):
         self.chain = []
         self.transactions = []
         self.create_block(proof = 1, previous_hash = '0')
         self.nodes = []
-    
+        
+
     #creating block and add to the chain
     def create_block(self, proof, previous_hash):
         block = {

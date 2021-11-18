@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
 from blockchain import *
 from peer import *
+from server import *
+from client import *
 
 #Creating web-app
 app = Flask(__name__)
@@ -73,7 +75,7 @@ def connect_node():
     req = json.loads(request.get_data())
     nodes = req['peer']
     blockchain.nodes = []
-    
+
     print('In connect_node --- ',nodes)
 
     if nodes is None:
@@ -104,6 +106,15 @@ def replace_chain():
         }
     
     return jsonify(response), 200
+
+@app.route('/disconnect',methods = ['GET'])
+def disconnect():
+    print('Flag --- ',Blockchain.flag)
+    if Blockchain.flag == 1:
+        Server().disconnect_server()
+    else:
+        Client().send_disconnect_signal()
+
 
 def get_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
