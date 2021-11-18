@@ -69,6 +69,11 @@ class Server:
 		self.s.close()
 
 	def send_peers(self):
+		
+		url = 'http://' + str(host) + ':5000/connect_node'
+		r = requests.post(url, data = json.dumps({'peer' : self.peers}))
+		print(r)
+
 		peer_list = ""
 		print('In send_peer --- ',self.peers)
 		for peer in self.peers:

@@ -53,7 +53,7 @@ class Client:
 	def send_disconnect_signal(self):
 		print('Disconnected From the server')
 		self.s.send('bye'.encode('utf-8'))
-		sys.exit()
+		sys.exit(0)
 
 	def update_peers(self,peers):
 		print('In update peers --- ', str(peers,'utf-8').split(',')[:-1])

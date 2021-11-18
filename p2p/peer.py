@@ -35,14 +35,14 @@ def main():
                 except KeyboardInterrupt:
                     sys.exit(0)
                 except SystemExit:
-                    if randint(1,10) == 7:
+                    if randint(1,5) == 3:
                         pass
                 except:
-                    if randint(1,10) == 7:
+                    if randint(1,5) == 3:
                         pass
 
                 try:
-                    Server(p2p.peers)
+                    Server(p2p.peers[0])
                 except KeyboardInterrupt:
                     sys.exit(0)
                 except:
