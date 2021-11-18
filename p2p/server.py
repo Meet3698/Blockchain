@@ -16,7 +16,7 @@ class Server:
 			self.s.listen(1)
 
 			print("-" * 25 + " Server is running on " + host + "-" * 25)
-			self.peers.append(s_addr)
+			self.peers.append((s_addr[0],port))
 
 			Blockchain.flag = 1
 			print('Flag --- server ----',Blockchain.flag)
@@ -28,7 +28,7 @@ class Server:
 
 			while True:
 				connection, addr = self.s.accept()
-				
+				print('type of addr --- ',type(addr))
 				self.peers.append(addr)
 				print('Peers are {}'.format(self.peers))
 
@@ -69,15 +69,16 @@ class Server:
 		self.s.close()
 
 	def send_peers(self):
-		
-		url = 'http://' + str(host) + ':5000/connect_node'
-		r = requests.post(url, data = json.dumps({'peer' : self.peers}))
-		print(r)
-
 		peer_list = ""
+		network = []
 		print('In send_peer --- ',self.peers)
 		for peer in self.peers:
+			network.append(peer[0])
 			peer_list = peer_list + str(peer[0]) + ","
+
+		url = 'http://' + str(host) + ':5000/connect_node'
+		r = requests.post(url, data = json.dumps({'peer' : network}))
+		print(r)
 
 		for connection in self.connections:
 			data = peer_byte_difference + bytes(peer_list,'utf-8')

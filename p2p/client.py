@@ -60,6 +60,7 @@ class Client:
 		p2p.peers = str(peers,'utf-8').split(',')[:-1]
 		print('Updated peers --- ', p2p.peers)
 		sleep(2)
+		
 		url = 'http://' + str(host) + ':5000/connect_node'
 		r = requests.post(url, data = json.dumps({'peer' : p2p.peers}))
 		print(r)
