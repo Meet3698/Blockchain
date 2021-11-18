@@ -35,7 +35,7 @@ def main():
                 except KeyboardInterrupt:
                     sys.exit(0)
                 except SystemExit:
-                    sys.exit(0)
+                    pass
                 except:
                     pass
 
