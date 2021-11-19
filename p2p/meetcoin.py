@@ -109,11 +109,12 @@ def replace_chain():
 
 @app.route('/disconnect',methods = ['GET'])
 def disconnect():
-    print('Flag --- ',Blockchain.flag)
-    if Blockchain.flag == 1:
-        Server().disconnect_server()
-    else:
-        Client().send_disconnect_signal()
+    print('Flag --- ',Blockchain.s_flag)
+    return jsonify({'key' : Blockchain.s_flag}), 200
+    # if Blockchain.flag == 1:
+    #     Server().disconnect_server()
+    # else:
+    #     Client().send_disconnect_signal()
 
 
 def get_ip_address():

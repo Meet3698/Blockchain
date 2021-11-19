@@ -17,7 +17,7 @@ import socket
 
 #Creating Blockchain
 class Blockchain:
-    flag = 0
+    s_flag = None
     #Intializing Genesis Block and Empty Chain
     def __init__(self):
         self.chain = []

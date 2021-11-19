@@ -18,8 +18,6 @@ class Server:
 			print("-" * 25 + " Server is running on " + host + "-" * 25)
 			self.peers.append((s_addr[0],port))
 
-			Blockchain.flag = 1
-			print('Flag --- server ----',Blockchain.flag)
 			db = DB()
 			nodes = db.collection.find()
 	
@@ -65,7 +63,7 @@ class Server:
 		print('{} disconnected!!'.format(addr))
 
 	def disconnect_server(self):
-		Blockchain.flag = 0
+		Blockchain.s_flag = 0
 		self.s.close()
 
 	def send_peers(self):
