@@ -113,3 +113,5 @@ class Blockchain:
         if longest_chain:
             self.chain = longest_chain
             return True
+        else:
+            return False
