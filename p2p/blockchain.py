@@ -110,6 +110,8 @@ class Blockchain:
                 if length > max_length and self.is_chain_valid(chain):
                     max_length = length
                     longest_chain = chain
+                else:
+                    pass
         if longest_chain:
             self.chain = longest_chain
             return True
