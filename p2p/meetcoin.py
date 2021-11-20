@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import flask
 from blockchain import *
 from peer import *
@@ -117,34 +117,67 @@ def disconnect():
     print('Flag --- ',Blockchain.s_flag)
     return jsonify({'key' : Blockchain.s_flag}), 200
    
+@app.route('/', methods = ['GET'])
+def home():
+    return render_template('index.html')
 
 @app.route('/authenticate', methods = ['POST'])
 def authenticate():
-        req = json.loads(request.get_data())
-        voter_details = db.collection_voter_details.find_one({'voter_id' : req['voter_id']})
-        if voter_details != None:
-            if req['name'] == voter_details['name']:
-                print(voter_details)
+    req = json.loads(request.data.decode())
+    voter_details = db.collection_voter_details.find_one({'voter_id' : req['voter_id']})
+    if voter_details != None:
+        if req['name'] == voter_details['name']:
+            print(voter_details)
+            if voter_details['pub_key'] == "":
                 
                 sk = SigningKey.generate()
                 vk = sk.verifying_key
                 vk2 = vk.to_string().hex()
-                
-                # print(vk)
-                # print('\n\n\n')
-                # print(VerifyingKey.from_string(bytes.fromhex(vk2.hex())))
-
+            
                 db.collection_voter_details.update_one({'voter_id' : voter_details['voter_id']},{ "$set": { 'pub_key': vk2 } })
                 
                 response = {
-                    'message' : 'You are successfully authenticated !!!',
-                    'priv_key' : 'Here is the private key --- ' + sk.to_string().hex()
-                }
-                return jsonify(response), 200
-                # signature = sk.sign(b"message")
-                # assert vk.verify(signature, b"message")
+                'message' : 'You are successfully authenticated !!!',
+                'priv_key' : 'Here is the private key --- ' + sk.to_string().hex()
+            }
+            else:
+                response = {
+                'message' : 'You are successfully authenticated !!!',
+                'priv_key' : 'You already have a private key'
+            }
+            
+            return jsonify(response), 200
+        else:
+            response = {
+                'message' : 'Please enter name as per the voter ID',
+                'flag' : 2
+            }
+            return jsonify(response), 200
 
-# @app.route('/verify', methods = [])
+    else:
+        response = {
+            'message' : 'Voter ID does not exist',
+            'flag' : 1
+        }
+        return jsonify(response), 200        
+                    
+
+@app.route('/verify', methods = ['POST'])
+def verify():
+    req = json.loads(request.get_data())
+    sk = SigningKey.from_string(bytes.fromhex(req['priv_key']))
+
+    signature = sk.sign(b"Hello World!! This is a secret message.")
+    vk = db.collection_voter_details.find_one({'voter_id' : 'abcd123'})['pub_key']
+    vk2 = VerifyingKey.from_string(bytes.fromhex(vk))
+
+    try:
+        msg = vk2.verify(signature, b"Hello World!! This is a secet message.")
+        return jsonify({})
+    except:
+        return jsonify({'message' : 'Jati re je'})
+
+
 @app.route('/key_generation', methods = ['GET'])
 def key_generation():
     print('In key generation')

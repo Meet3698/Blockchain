@@ -1,0 +1,87 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>Login Page</title>
+</head>
+
+<body>
+    < <div class="col justify-content-around" style="padding: 13% 30%">
+
+        <div class="alert alert-danger collapse" id="alert" role="alert">
+            <p></p>
+        </div>
+
+        <div class="card text-center">
+            <div class="card-header">
+                Blockchain based E-Voting
+            </div>
+            <div class="card-body">
+                <form action="javascript:send_data()" method="POST">
+                    <div class="form-group">
+                        <input type="text" id="voter_id" name="voter_id" class="form-control"
+                            placeholder="Enter Voter ID">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" class="form-control"
+                            placeholder="Name as per Voter ID card">
+                    </div>
+
+                    <button type="submit" id="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+        </div>
+        </div>
+
+        <script>
+
+            function send_data() {
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/authenticate");
+
+                var voter_id = document.getElementById("voter_id")
+                var name = document.getElementById("name")
+
+                data = {
+                    'voter_id': voter_id['value'],
+                    'name': name['value']
+                }
+
+                xhr.onload = function (event) {
+                    response = JSON.parse(event.target.response)
+                    if (response['flag'] == 1){
+                        $('.alert').removeClass('collapse')
+                        document.getElementById("alert").innerHTML = response['message']
+                    }
+                    else if (response['flag'] == 2){
+                        $('.alert').removeClass('collapse')
+                        document.getElementById("alert").innerHTML = response['message']
+                    }
+                    else{
+                        window.location = '/verify'
+                    }
+                }
+
+                xhr.send(JSON.stringify(data));
+
+
+            }
+            // var xhr = new XMLHttpRequest();
+            // xhr.open("POST", "/authenticate");
+            // xhr.onload = function (event) {
+            //     alert("Success, server responded with: " + event.target.response); // raw response
+            // };
+            // // or onerror, onabort
+            // var voter_id = document.getElementsByName('voter_id')
+            // var name = document.getElementsByClassName('name')
+            // console.log(voter_id)
+            // xhr.send(formData);
+        </script>
+</body>
+
+</html>
