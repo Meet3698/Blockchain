@@ -8,7 +8,7 @@ from peer import *
 class Client:
 
 	def __init__(self,addr):
-
+		
 		self.s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 		self.s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR, 1)
 		self.s.connect((addr,port))

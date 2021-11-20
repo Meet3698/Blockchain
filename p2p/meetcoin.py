@@ -1,10 +1,14 @@
 from flask import Flask, jsonify, request
+import flask
 from blockchain import *
 from peer import *
 from server import *
 from client import *
+from db import *
 
-#Creating web-app
+from ecdsa import SigningKey, VerifyingKey
+
+#Creating web-app 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 
@@ -13,6 +17,7 @@ node_address = str(uuid4()).replace('-','')
 
 
 blockchain = Blockchain()
+db = DB()
 
 @app.route('/mine_block',methods = ['GET'])
 def mine_block():
@@ -111,10 +116,40 @@ def replace_chain():
 def disconnect():
     print('Flag --- ',Blockchain.s_flag)
     return jsonify({'key' : Blockchain.s_flag}), 200
-    # if Blockchain.flag == 1:
-    #     Server().disconnect_server()
-    # else:
-    #     Client().send_disconnect_signal()
+   
+
+@app.route('/authenticate', methods = ['POST'])
+def authenticate():
+        req = json.loads(request.get_data())
+        voter_details = db.collection_voter_details.find_one({'voter_id' : req['voter_id']})
+        if voter_details != None:
+            if req['name'] == voter_details['name']:
+                print(voter_details)
+                
+                sk = SigningKey.generate()
+                vk = sk.verifying_key
+                vk2 = vk.to_string().hex()
+                
+                # print(vk)
+                # print('\n\n\n')
+                # print(VerifyingKey.from_string(bytes.fromhex(vk2.hex())))
+
+                db.collection_voter_details.update_one({'voter_id' : voter_details['voter_id']},{ "$set": { 'pub_key': vk2 } })
+                
+                response = {
+                    'message' : 'You are successfully authenticated !!!',
+                    'priv_key' : 'Here is the private key --- ' + sk.to_string().hex()
+                }
+                return jsonify(response), 200
+                # signature = sk.sign(b"message")
+                # assert vk.verify(signature, b"message")
+
+# @app.route('/verify', methods = [])
+@app.route('/key_generation', methods = ['GET'])
+def key_generation():
+    print('In key generation')
+
+    
 
 
 def get_ip_address():

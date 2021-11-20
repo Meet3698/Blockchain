@@ -19,10 +19,10 @@ class Server:
 			self.peers.append((s_addr[0],port))
 
 			db = DB()
-			nodes = db.collection.find()
+			nodes = db.collection_nodes.find()
 	
 			for node in nodes:
-				db.collection.update_one({'node' : node['node']},{ "$set": { 'node': host } })
+				db.collection_nodes.update_one({'node' : node['node']},{ "$set": { 'node': host } })
 
 			while True:
 				connection, addr = self.s.accept()

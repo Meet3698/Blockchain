@@ -14,12 +14,12 @@ def main():
         s.connect(("8.8.8.8", 80))
         return s.getsockname()[0]
 
-    if db.collection.count() == 0:
+    if db.collection_nodes.count() == 0:
         host = get_ip_address()
         p2p.peers.append(host)
-        db.collection.insert_one({'node':host})
+        db.collection_nodes.insert_one({'node':host})
     else:
-        nodes = db.collection.find()
+        nodes = db.collection_nodes.find()
         for node in nodes:
             p2p.peers.append(node['node'])
     print('p2p peers -- ',p2p.peers)
