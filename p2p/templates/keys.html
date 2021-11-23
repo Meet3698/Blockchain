@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+        <div class="col justify-content-around" style="padding: 11% 30%">
+
+            <div class="card border-dark mb-3" >
+                <div class="card-header">Your Private Key</div>
+                <div class="card-body text-dark">
+                    <textarea class="form-control" id="priv_key" ></textarea>
+                </div>
+            </div>
+
+            <div class="card border-dark mb-3" >
+                <div class="card-header">Your Public Key</div>
+                <div class="card-body text-dark">
+                    <textarea class="form-control" id="pub_key"></textarea>
+                </div>
+            </div>
+
+            <div class="alert alert-success collapse" role="alert">
+                Text Copied Successfully
+            </div>
+
+        </div>
+        <script>
+            cookies = document.cookie.split(";")
+
+            document.getElementById('priv_key').innerHTML = cookies[0]
+            document.getElementById('pub_key').innerHTML = cookies[1]
+
+            document.getElementById('priv_key').onclick = function () {
+                this.select();
+                document.execCommand('copy');
+                $('.alert').removeClass('collapse').delay(2000).fadeIn(200,function(){
+                    $('.alert').addClass('collapse')
+                })
+
+            }
+
+            $('.alert').addClass('collapse')
+
+            document.getElementById('pub_key').onclick = function () {
+                this.select();
+                document.execCommand('copy');
+                $('.alert').removeClass('collapse').delay(2000).fadeIn(200,function(){
+                    $('.alert').addClass('collapse')
+                })
+            }
+        </script>
+</body>
+
+</html>

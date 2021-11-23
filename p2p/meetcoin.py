@@ -138,15 +138,19 @@ def authenticate():
                 
                 response = {
                 'message' : 'You are successfully authenticated !!!',
-                'priv_key' : 'Here is the private key --- ' + sk.to_string().hex()
+                'priv_key' : 'Here is the private key --- ' + sk.to_string().hex(),
+                'pub_key' : vk2,
+                'flag' : 0
             }
+                return jsonify(response), 200
             else:
                 response = {
                 'message' : 'You are successfully authenticated !!!',
-                'priv_key' : 'You already have a private key'
+                'priv_key' : 'You already have a private key',
+                'flag' : 0
             }
             
-            return jsonify(response), 200
+                return jsonify(response), 200
         else:
             response = {
                 'message' : 'Please enter name as per the voter ID',
@@ -178,12 +182,12 @@ def verify():
         return jsonify({'message' : 'Jati re je'})
 
 
-@app.route('/key_generation', methods = ['GET'])
-def key_generation():
-    print('In key generation')
-
+@app.route('/keys', methods = ['GET'])
+def keys():
+    return render_template('keys.html')
+    # print('In key generation')
+    # return jsonify({})
     
-
 
 def get_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

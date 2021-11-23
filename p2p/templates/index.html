@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    < <div class="col justify-content-around" style="padding: 13% 30%">
+    <div class="col justify-content-around" style="padding: 13% 30%">
 
         <div class="alert alert-danger collapse" id="alert" role="alert">
             <p></p>
@@ -35,53 +35,50 @@
                 </form>
             </div>
         </div>
-        </div>
+    </div>
 
-        <script>
+    <script>
 
-            function send_data() {
+        function send_data() {
 
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "/authenticate");
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/authenticate");
 
-                var voter_id = document.getElementById("voter_id")
-                var name = document.getElementById("name")
+            var voter_id = document.getElementById("voter_id")
+            var name = document.getElementById("name")
 
-                data = {
-                    'voter_id': voter_id['value'],
-                    'name': name['value']
-                }
-
-                xhr.onload = function (event) {
-                    response = JSON.parse(event.target.response)
-                    if (response['flag'] == 1){
-                        $('.alert').removeClass('collapse')
-                        document.getElementById("alert").innerHTML = response['message']
-                    }
-                    else if (response['flag'] == 2){
-                        $('.alert').removeClass('collapse')
-                        document.getElementById("alert").innerHTML = response['message']
-                    }
-                    else{
-                        window.location = '/verify'
-                    }
-                }
-
-                xhr.send(JSON.stringify(data));
-
-
+            data = {
+                'voter_id': voter_id['value'],
+                'name': name['value']
             }
-            // var xhr = new XMLHttpRequest();
-            // xhr.open("POST", "/authenticate");
-            // xhr.onload = function (event) {
-            //     alert("Success, server responded with: " + event.target.response); // raw response
-            // };
-            // // or onerror, onabort
-            // var voter_id = document.getElementsByName('voter_id')
-            // var name = document.getElementsByClassName('name')
-            // console.log(voter_id)
-            // xhr.send(formData);
-        </script>
+
+            xhr.onload = function (event) {
+                response = JSON.parse(event.target.response)
+                flag = response.flag
+                if (flag == 1) {
+                    $('.alert').removeClass('collapse')
+                    document.getElementById("alert").innerHTML = response.message
+                }
+                else if (flag == 2) {
+                    $('.alert').removeClass('collapse')
+                    document.getElementById("alert").innerHTML = response.message
+                }
+                else {
+                    console.log(response.flag)
+                    cookie = {
+                        "priv_key" : response.priv_key ,
+                        "pub_key" : response.pub_key
+                    }
+
+                    document.cookie = cookie
+                    window.location = '/keys'
+                }
+            }
+
+            xhr.send(JSON.stringify(data));
+        }
+
+    </script>
 </body>
 
 </html>
