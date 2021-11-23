@@ -3,3 +3,21 @@
     float: none; /* Added */
     margin-bottom: 10px; /* Added */
 }
+
+  td 
+{
+    height: 50px; 
+    width: 50px;
+}
+
+#cssTable td 
+{
+    text-align: center; 
+    vertical-align: middle;
+}
+
+#cssTable th
+{
+    text-align: center; 
+    vertical-align: middle;
+}

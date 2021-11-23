@@ -64,18 +64,17 @@
                     document.getElementById("alert").innerHTML = response.message
                 }
                 else {
-                    console.log(response.flag)
                     cookie = {
-                        "priv_key" : response.priv_key ,
-                        "pub_key" : response.pub_key
+                        "priv_key": response.priv_key,
+                        "pub_key": response.pub_key
                     }
 
-                    document.cookie = cookie
+                    document.cookie = JSON.stringify(cookie)
                     window.location = '/keys'
                 }
             }
 
-            xhr.send(JSON.stringify(data));
+            xhr.send(JSON.stringify(data))
         }
 
     </script>

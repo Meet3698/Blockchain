@@ -8,19 +8,19 @@
 </head>
 
 <body>
-        <div class="col justify-content-around" style="padding: 11% 30%">
+        <div class="col justify-content-around" style="padding: 8% 30%">
 
             <div class="card border-dark mb-3" >
                 <div class="card-header">Your Private Key</div>
                 <div class="card-body text-dark">
-                    <textarea class="form-control" id="priv_key" ></textarea>
+                    <textarea readonly class="form-control" id="priv_key" ></textarea>
                 </div>
             </div>
 
             <div class="card border-dark mb-3" >
                 <div class="card-header">Your Public Key</div>
                 <div class="card-body text-dark">
-                    <textarea class="form-control" id="pub_key"></textarea>
+                    <textarea readonly class="form-control" id="pub_key"></textarea>
                 </div>
             </div>
 
@@ -30,10 +30,11 @@
 
         </div>
         <script>
-            cookies = document.cookie.split(";")
+            console.log(document.cookie)
+            cookies = JSON.parse(document.cookie)
 
-            document.getElementById('priv_key').innerHTML = cookies[0]
-            document.getElementById('pub_key').innerHTML = cookies[1]
+            document.getElementById('priv_key').innerHTML = cookies.priv_key
+            document.getElementById('pub_key').innerHTML = cookies.pub_key
 
             document.getElementById('priv_key').onclick = function () {
                 this.select();

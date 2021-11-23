@@ -138,32 +138,26 @@ def authenticate():
                 
                 response = {
                 'message' : 'You are successfully authenticated !!!',
-                'priv_key' : 'Here is the private key --- ' + sk.to_string().hex(),
+                'priv_key' : sk.to_string().hex(),
                 'pub_key' : vk2,
                 'flag' : 0
             }
-                return jsonify(response), 200
+
             else:
-                response = {
-                'message' : 'You are successfully authenticated !!!',
-                'priv_key' : 'You already have a private key',
-                'flag' : 0
-            }
-            
-                return jsonify(response), 200
+                return render_template('index.html')
+                
         else:
             response = {
                 'message' : 'Please enter name as per the voter ID',
                 'flag' : 2
             }
-            return jsonify(response), 200
 
     else:
         response = {
             'message' : 'Voter ID does not exist',
             'flag' : 1
         }
-        return jsonify(response), 200        
+    return jsonify(response), 200        
                     
 
 @app.route('/verify', methods = ['POST'])
