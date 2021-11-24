@@ -47,12 +47,13 @@
                                 <td>Gryffindor</td>
                                 <td>Parth Parmar</td>
                                 <td>
-                                    <form action="javascript:send_data()" method="POST">
+                                    <form action="javascript:send_data('Gryffindor')" method="POST">
                                         <div class="form-group">
                                             <input type="text" id="priv_key" name="priv_key" class="form-control"
                                                 placeholder="Enter Your Private Key">
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Vote</button>
+                                        <button type="submit" id="button" class="btn btn-primary" value="Gryffindor">Vote</button>
+                                    </form>
                                 </td>
                             </tr>
                             <tr>
@@ -63,7 +64,13 @@
                                 </td>
                                 <td>Slytherin</td>
                                 <td>Meet Patel</td>
-                                <td><button type="button" class="btn btn-primary">Vote</button></td>
+                                <td><form action="javascript:send_data('Slytherin')" method="POST">
+                                    <div class="form-group">
+                                        <input type="text" id="priv_key" name="priv_key" class="form-control"
+                                            placeholder="Enter Your Private Key">
+                                    </div>
+                                    <button type="submit" id="button" class="btn btn-primary">Vote</button>
+                                </form></td>
                             </tr>
                         </tbody>
                     </table>
@@ -73,16 +80,18 @@
     </div>
 
     <script>
-        function send_data() {
+        function send_data(vote) {
 
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/verify");
 
             var priv_key = document.getElementById("priv_key")
-
+            // var vote = document.getElementById("button")
+            
             data = {
                 'priv_key': priv_key['value'],
-                'voter_id': JSON.parse(document.cookie.split('=')[1]).voter_id
+                'voter_id': JSON.parse(document.cookie.split('=')[1]).voter_id,
+                'vote' : vote
             }
 
             xhr.onload = function (event) {

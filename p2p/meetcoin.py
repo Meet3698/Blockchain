@@ -167,7 +167,6 @@ def authenticate():
 @app.route('/verify', methods = ['POST'])
 def verify():
     req = json.loads(request.get_data())
-    
     try:
         sk = SigningKey.from_string(bytes.fromhex(req['priv_key']))
     except:
@@ -176,13 +175,13 @@ def verify():
         }
         return jsonify(response),200 
 
-    signature = sk.sign(b"Hello World!! This is a secret message.")
+    signature = sk.sign(req['vote'].encode())
     vk = db.collection_voter_details.find_one({'voter_id' : req['voter_id']})['pub_key']
     
     vk2 = VerifyingKey.from_string(bytes.fromhex(vk))
 
     try:
-        msg = vk2.verify(signature, b"Hello World!! This is a secret message.")
+        msg = vk2.verify(signature, req['vote'].encode() )
         response = {
             'message' : 'success'
         }
