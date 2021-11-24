@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style">
 </head>
 
 <body>
@@ -24,14 +24,17 @@
                 </div>
             </div>
 
+            <form action="/dashboard" method="GET">
+                <button type="submit" id="submit" class="btn btn-primary">Goto Dashboard</button>
+            </form>
+
             <div class="alert alert-success collapse" role="alert">
                 Text Copied Successfully
             </div>
 
         </div>
         <script>
-            console.log(document.cookie)
-            cookies = JSON.parse(document.cookie)
+            cookies = JSON.parse(document.cookie.split('=')[1])
 
             document.getElementById('priv_key').innerHTML = cookies.priv_key
             document.getElementById('pub_key').innerHTML = cookies.pub_key

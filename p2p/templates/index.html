@@ -3,7 +3,7 @@
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <title>Login Page</title>
@@ -52,6 +52,8 @@
                 'name': name['value']
             }
 
+            data = JSON.stringify(data)
+
             xhr.onload = function (event) {
                 response = JSON.parse(event.target.response)
                 flag = response.flag
@@ -63,18 +65,23 @@
                     $('.alert').removeClass('collapse')
                     document.getElementById("alert").innerHTML = response.message
                 }
-                else {
+                else if  (flag == 0){
                     cookie = {
                         "priv_key": response.priv_key,
-                        "pub_key": response.pub_key
+                        "pub_key": response.pub_key,
+                        'voter_id' : response.voter_id
                     }
 
-                    document.cookie = JSON.stringify(cookie)
+                    document.cookie = "keys=" + JSON.stringify(cookie)
                     window.location = '/keys'
+                }
+                else{
+                    document.cookie = "voter_id=" + JSON.stringify({'voter_id' : response.voter_id})
+                    window.location = '/dashboard'
                 }
             }
 
-            xhr.send(JSON.stringify(data))
+            xhr.send(data)
         }
 
     </script>

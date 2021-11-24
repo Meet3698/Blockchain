@@ -3,17 +3,28 @@
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
 
-    <div class="container border-dark text-center">
+    <div class="container border-dark">
         <div style="background-color: darkred; padding: 20;color: burlywood;">
-            <h3>Dashboard</h3>
+            <h3>Welcome to Hogwarts</h3>
+            <!-- <form action="javascript:logout()">
+                <div class="form-group">
+                    <input type="text" id="priv_key" name="priv_key" class="form-control"
+                        placeholder="Enter Your Private Key">
+                </div> -->
+            <button type="submit" class="btn btn-primary" onclick="logout()">logout</button>
         </div>
         <br>
+
+        <div class="alert alert-danger collapse" id="alert" role="alert">
+            <h3>Private Key does not match</h3>
+        </div>
+
         <div>
             <div class="row">
                 <div class="col-12">
@@ -35,7 +46,14 @@
                                 </td>
                                 <td>Gryffindor</td>
                                 <td>Parth Parmar</td>
-                                <td><button type="button" class="btn btn-primary">Vote</button></td>
+                                <td>
+                                    <form action="javascript:send_data()" method="POST">
+                                        <div class="form-group">
+                                            <input type="text" id="priv_key" name="priv_key" class="form-control"
+                                                placeholder="Enter Your Private Key">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Vote</button>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="w-25">
@@ -53,6 +71,50 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function send_data() {
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/verify");
+
+            var priv_key = document.getElementById("priv_key")
+
+            data = {
+                'priv_key': priv_key['value'],
+                'voter_id': JSON.parse(document.cookie.split('=')[1]).voter_id
+            }
+
+            xhr.onload = function (event) {
+                response = JSON.parse(event.target.response)
+
+                if (response.message == 'success') {
+                    window.location = '/result'
+                }
+                else {
+                    $('.alert').removeClass('collapse').delay(2000).fadeIn(200, function () {
+                        $('.alert').addClass('collapse')
+                    })
+                }
+            }
+
+            xhr.send(JSON.stringify(data))
+        }
+
+        function logout() {
+            cookies = document.cookie.split(";")
+
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                console.log(name);
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            }
+
+            window.location = '/'
+        }
+    </script>
 </body>
 
 </html>

@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, render_template
 import flask
+from flask.wrappers import Response
 from blockchain import *
 from peer import *
 from server import *
@@ -140,12 +141,15 @@ def authenticate():
                 'message' : 'You are successfully authenticated !!!',
                 'priv_key' : sk.to_string().hex(),
                 'pub_key' : vk2,
+                'voter_id' : req['voter_id'],
                 'flag' : 0
             }
 
             else:
-                return render_template('index.html')
-                
+                response = {
+                'voter_id' : req['voter_id'],
+                'flag' : 4
+            }                
         else:
             response = {
                 'message' : 'Please enter name as per the voter ID',
@@ -163,25 +167,48 @@ def authenticate():
 @app.route('/verify', methods = ['POST'])
 def verify():
     req = json.loads(request.get_data())
-    sk = SigningKey.from_string(bytes.fromhex(req['priv_key']))
+    
+    try:
+        sk = SigningKey.from_string(bytes.fromhex(req['priv_key']))
+    except:
+        response = {
+            'message' : 'fail'
+        }
+        return jsonify(response),200 
 
     signature = sk.sign(b"Hello World!! This is a secret message.")
-    vk = db.collection_voter_details.find_one({'voter_id' : 'abcd123'})['pub_key']
+    vk = db.collection_voter_details.find_one({'voter_id' : req['voter_id']})['pub_key']
+    
     vk2 = VerifyingKey.from_string(bytes.fromhex(vk))
 
     try:
-        msg = vk2.verify(signature, b"Hello World!! This is a secet message.")
-        return jsonify({})
-    except:
-        return jsonify({'message' : 'Jati re je'})
+        msg = vk2.verify(signature, b"Hello World!! This is a secret message.")
+        response = {
+            'message' : 'success'
+        }
+        return jsonify(response),200 
 
+    except:
+        response = {
+            'message' : 'fail'
+        }
+        return jsonify(response),200 
 
 @app.route('/keys', methods = ['GET'])
 def keys():
     return render_template('keys.html')
-    # print('In key generation')
-    # return jsonify({})
-    
+
+@app.route('/dashboard', methods = ['GET'])
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route('/style', methods = ['GET'])
+def style():
+    return render_template('style.css')
+
+@app.route('/result', methods = ['GET'])
+def result():
+    return render_template('result.html')
 
 def get_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
