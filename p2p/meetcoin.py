@@ -226,8 +226,12 @@ def style():
     return render_template('style.css')
 
 @app.route('/vote', methods = ['GET'])
-def result():
+def vote():
     return render_template('vote.html')
+
+@app.route('/result', methods = ['GET'])
+def result():
+    return render_template('result.html')
 
 def get_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
