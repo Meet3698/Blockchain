@@ -34,6 +34,7 @@ class Client:
 				url = 'http://' + str(host) + ':5000/get_chain'
 				r = requests.get(url)
 				print(r)
+				
 				self.update_peers(data[1:])
 
 	def send_message(self):
