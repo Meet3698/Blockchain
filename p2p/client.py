@@ -30,6 +30,10 @@ class Client:
 				raise SystemExit  
 			elif data[0:1] == b'\x11':
 				print('Got peers\n')
+
+				url = 'http://' + str(host) + ':5000/get_chain'
+				r = requests.get(url)
+				print(r)
 				self.update_peers(data[1:])
 
 	def send_message(self):

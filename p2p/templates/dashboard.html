@@ -109,7 +109,7 @@
                         if (xhr1.status == 201){
                             cookie = JSON.stringify(response)
                             document.cookie = 'vote=' + cookie
-                            window.location = '/result'
+                            window.location = '/vote'
                         }
                     }
                     xhr1.send(JSON.stringify(response))

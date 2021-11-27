@@ -20,7 +20,11 @@ class Server:
 
 			db = DB()
 			nodes = db.collection_nodes.find()
-	
+
+			url = 'http://' + str(host) + ':5000/get_chain'
+			r = requests.get(url)
+			print(r)
+			
 			for node in nodes:
 				db.collection_nodes.update_one({'node' : node['node']},{ "$set": { 'node': host } })
 

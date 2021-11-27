@@ -75,9 +75,12 @@
                     document.cookie = "keys=" + JSON.stringify(cookie)
                     window.location = '/keys'
                 }
-                else{
+                else if(flag == 3){
                     document.cookie = "voter_id=" + JSON.stringify({'voter_id' : response.voter_id})
                     window.location = '/dashboard'
+                }
+                else{
+                    window.location = '/result'
                 }
             }
 

@@ -66,11 +66,14 @@ def is_chain_valid():
 @app.route('/add_transaction', methods=['POST'])
 def add_transaction():
     keys = json.loads(request.get_data())
+
     # transaction_keys = ['sender','receiver','amount']
     transaction_keys = ['pub_key','house','name']
     if not all ( key in keys for key in transaction_keys):
         return 'Some elements of the transaction are missing!!', 400
     index = blockchain.add_transaction(keys['pub_key'],keys['house'],keys['name'])
+    db.collection_voter_details.update_one({'pub_key' : keys['pub_key']},{ "$set": { 'vote': 1 } })
+
 
     return jsonify(keys), 201
 
@@ -128,6 +131,7 @@ def home():
 def authenticate():
     req = json.loads(request.data.decode())
     voter_details = db.collection_voter_details.find_one({'voter_id' : req['voter_id']})
+
     if voter_details != None:
         if req['name'] == voter_details['name']:
             print(voter_details)
@@ -146,6 +150,12 @@ def authenticate():
                 'voter_id' : req['voter_id'],
                 'flag' : 0
             }
+
+            elif voter_details['vote'] == 0:
+                response = {
+                'voter_id' : req['voter_id'],
+                'flag' : 3
+            }   
 
             else:
                 response = {
@@ -215,9 +225,9 @@ def dashboard():
 def style():
     return render_template('style.css')
 
-@app.route('/result', methods = ['GET'])
+@app.route('/vote', methods = ['GET'])
 def result():
-    return render_template('result.html')
+    return render_template('vote.html')
 
 def get_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
