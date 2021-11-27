@@ -47,12 +47,13 @@
                                 <td>Gryffindor</td>
                                 <td>Parth Parmar</td>
                                 <td>
-                                    <form action="javascript:send_data('Gryffindor')" method="POST">
+                                    <form action="javascript:send_data('Gryffindor','Parth Parmar')" method="POST">
                                         <div class="form-group">
-                                            <input type="text" id="priv_key" name="priv_key" class="form-control"
+                                            <input type="text" id="Gryffindor" name="priv_key" class="form-control"
                                                 placeholder="Enter Your Private Key">
                                         </div>
-                                        <button type="submit" id="button" class="btn btn-primary" value="Gryffindor">Vote</button>
+                                        <button type="submit" id="button" class="btn btn-primary"
+                                            value="Gryffindor">Vote</button>
                                     </form>
                                 </td>
                             </tr>
@@ -64,13 +65,15 @@
                                 </td>
                                 <td>Slytherin</td>
                                 <td>Meet Patel</td>
-                                <td><form action="javascript:send_data('Slytherin')" method="POST">
-                                    <div class="form-group">
-                                        <input type="text" id="priv_key" name="priv_key" class="form-control"
-                                            placeholder="Enter Your Private Key">
-                                    </div>
-                                    <button type="submit" id="button" class="btn btn-primary">Vote</button>
-                                </form></td>
+                                <td>
+                                    <form action="javascript:send_data('Slytherin')" method="POST">
+                                        <div class="form-group">
+                                            <input type="text" id="Slytherin" name="priv_key" class="form-control"
+                                                placeholder="Enter Your Private Key">
+                                        </div>
+                                        <button type="submit" id="button" class="btn btn-primary">Vote</button>
+                                    </form>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -80,26 +83,33 @@
     </div>
 
     <script>
-        function send_data(vote) {
+        function send_data(vote, name) {
 
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/verify");
 
-            var priv_key = document.getElementById("priv_key")
+            var priv_key = document.getElementById(vote)
             // var vote = document.getElementById("button")
-            
+
             data = {
                 'priv_key': priv_key['value'],
                 'voter_id': JSON.parse(document.cookie.split('=')[1]).voter_id,
-                'vote' : vote
+                'vote': vote,
+                'name': name
             }
 
             xhr.onload = function (event) {
                 response = JSON.parse(event.target.response)
 
                 if (response.message == 'success') {
-                    window.location = '/result'
-                }
+                    var xhr1 = new XMLHttpRequest();
+                    xhr1.open("POST", "/add_transaction");
+
+                    xhr.onload = function (event) {
+                        console.log(xhr.status);
+                    }
+                    xhr1.send(JSON.stringify(response))
+                }   
                 else {
                     $('.alert').removeClass('collapse').delay(2000).fadeIn(200, function () {
                         $('.alert').addClass('collapse')

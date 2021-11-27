@@ -80,11 +80,11 @@ class Blockchain:
             block_index += 1
         return True
 
-    def add_transaction(self, sender, receiver, amount):
+    def add_transaction(self, pub_key, house, name):
         self.transactions.append({
-            'sender' : sender,
-            'receiver' : receiver,
-            'amount' : amount
+            'pub_key' : pub_key,
+            'house' : house,
+            'name' : name,
         })
         previous_block =  self.get_previous_block() 
         return previous_block['index'] + 1

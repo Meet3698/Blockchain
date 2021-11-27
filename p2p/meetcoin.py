@@ -22,22 +22,26 @@ db = DB()
 
 @app.route('/mine_block',methods = ['GET'])
 def mine_block():
-    previous_block = blockchain.get_previous_block()
-    previous_proof = previous_block['proof']
-    proof = blockchain.proof_of_work(previous_proof)
-    previous_hash = blockchain.hash(previous_block)
-    blockchain.add_transaction(sender=node_address, receiver='Meet', amount=1)
-    block = blockchain.create_block(proof, previous_hash)
-    
-    response = {
-            'message' : 'Congratulations!!! You have just mined a block',
-            'index' : block['index'],
-            'timestamp' : block['timestamp'],
-            'proof' : block['proof'],
-            'previous_hash' : block['previous_hash'],
-            'transactions' : block['transactions']
+    if(len(blockchain.transactions) != 0):
+        previous_block = blockchain.get_previous_block()
+        previous_proof = previous_block['proof']
+        proof = blockchain.proof_of_work(previous_proof)
+        previous_hash = blockchain.hash(previous_block)
+        # blockchain.add_transaction(sender=node_address, receiver='Meet', amount=1)
+        block = blockchain.create_block(proof, previous_hash)
+        
+        response = {
+                'message' : 'Congratulations!!! You have just mined a block',
+                'index' : block['index'],
+                'timestamp' : block['timestamp'],
+                'proof' : block['proof'],
+                'previous_hash' : block['previous_hash'],
+                'transactions' : block['transactions']
+            }
+    else:
+        response = {
+            'message' : 'There is no transaction is pool'
         }
-    
     return jsonify(response), 200
 
 @app.route('/get_chain', methods = ['GET'])
@@ -62,10 +66,11 @@ def is_chain_valid():
 @app.route('/add_transaction', methods=['POST'])
 def add_transaction():
     keys = json.loads(request.get_data())
-    transaction_keys = ['sender','receiver','amount']
+    # transaction_keys = ['sender','receiver','amount']
+    transaction_keys = ['pub_key','house','name']
     if not all ( key in keys for key in transaction_keys):
         return 'Some elements of the transaction are missing!!', 400
-    index = blockchain.add_transaction(keys['sender'],keys['receiver'],keys['amount'])
+    index = blockchain.add_transaction(keys['pub_key'],keys['house'],keys['name'])
     response = {
         'message' : f'This transaction will be added to block {index}'
     }
@@ -170,24 +175,32 @@ def verify():
     try:
         sk = SigningKey.from_string(bytes.fromhex(req['priv_key']))
     except:
+        # print("----------ERROR----------")
         response = {
             'message' : 'fail'
         }
         return jsonify(response),200 
 
     signature = sk.sign(req['vote'].encode())
+    print(signature)
     vk = db.collection_voter_details.find_one({'voter_id' : req['voter_id']})['pub_key']
     
     vk2 = VerifyingKey.from_string(bytes.fromhex(vk))
 
     try:
-        msg = vk2.verify(signature, req['vote'].encode() )
+        vk2.verify(signature, req['vote'].encode() )
+
         response = {
-            'message' : 'success'
+            'message' : 'success',
+            'pub_key' : vk,
+            'house' : req['vote'],
+            'name' : req['name'],
         }
+
         return jsonify(response),200 
 
     except:
+        print(req['priv_key'])
         response = {
             'message' : 'fail'
         }
