@@ -85,8 +85,8 @@
     <script>
         function send_data(vote, name) {
 
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/verify");
+            var xhr = new XMLHttpRequest()
+            xhr.open("POST", "/verify")
 
             var priv_key = document.getElementById(vote)
             // var vote = document.getElementById("button")
@@ -105,8 +105,12 @@
                     var xhr1 = new XMLHttpRequest();
                     xhr1.open("POST", "/add_transaction");
 
-                    xhr.onload = function (event) {
-                        console.log(xhr.status);
+                    xhr1.onload = function (event) {
+                        if (xhr1.status == 201){
+                            cookie = JSON.stringify(response)
+                            document.cookie = 'vote=' + cookie
+                            window.location = '/result'
+                        }
                     }
                     xhr1.send(JSON.stringify(response))
                 }   
