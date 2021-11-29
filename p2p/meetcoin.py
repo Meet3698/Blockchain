@@ -50,9 +50,15 @@ def mine_block():
 
 @app.route('/get_chain', methods = ['GET'])
 def get_chain():
-    response = {
-            'chain' : blockchain.chain,
-            'length' : len(blockchain.chain)
+
+    if len(blockchain.chain) is 0:
+        response = {
+                'chain' : blockchain.chain,
+                'length' : len(blockchain.chain)
+        }
+    else:
+        response = {
+            'flag' : 1
         }
     
     return jsonify(response), 200
