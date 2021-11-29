@@ -1,11 +1,10 @@
 from flask import Flask, jsonify, request, render_template
-import flask
-from flask.wrappers import Response
 from blockchain import *
 from peer import *
 from server import *
 from client import *
 from db import *
+from constants import *
 
 from ecdsa import SigningKey, VerifyingKey
 
@@ -22,6 +21,8 @@ db = DB()
 
 @app.route('/mine_block',methods = ['GET'])
 def mine_block():
+    print('--------Mine_block--------')
+
     if(len(blockchain.transactions) != 0):
         previous_block = blockchain.get_previous_block()
         previous_proof = previous_block['proof']
@@ -36,13 +37,16 @@ def mine_block():
                 'timestamp' : block['timestamp'],
                 'proof' : block['proof'],
                 'previous_hash' : block['previous_hash'],
-                'transactions' : block['transactions']
+                'transactions' : block['transactions'],
             }
+        return jsonify(response), 200
+
     else:
         response = {
             'message' : 'There is no transaction is pool'
         }
-    return jsonify(response), 200
+
+        return jsonify(response), 404
 
 @app.route('/get_chain', methods = ['GET'])
 def get_chain():
@@ -73,7 +77,6 @@ def add_transaction():
         return 'Some elements of the transaction are missing!!', 400
     index = blockchain.add_transaction(keys['pub_key'],keys['house'],keys['name'])
     db.collection_voter_details.update_one({'pub_key' : keys['pub_key']},{ "$set": { 'vote': 1 } })
-
 
     return jsonify(keys), 201
 
@@ -134,9 +137,9 @@ def authenticate():
 
     if voter_details != None:
         if req['name'] == voter_details['name']:
-            print(voter_details)
+
             if voter_details['pub_key'] == "":
-                
+
                 sk = SigningKey.generate()
                 vk = sk.verifying_key
                 vk2 = vk.to_string().hex()
@@ -182,14 +185,13 @@ def verify():
     try:
         sk = SigningKey.from_string(bytes.fromhex(req['priv_key']))
     except:
-        # print("----------ERROR----------")
         response = {
             'message' : 'fail'
         }
         return jsonify(response),200 
 
     signature = sk.sign(req['vote'].encode())
-    print(signature)
+
     vk = db.collection_voter_details.find_one({'voter_id' : req['voter_id']})['pub_key']
     
     vk2 = VerifyingKey.from_string(bytes.fromhex(vk))

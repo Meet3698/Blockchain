@@ -22,7 +22,7 @@
         <br>
 
         <div class="alert alert-danger collapse" id="alert" role="alert">
-            <h3>Private Key does not match</h3>
+            <h3 id='h3'>Private Key does not match</h3>
         </div>
 
         <div>
@@ -106,14 +106,34 @@
                     xhr1.open("POST", "/add_transaction");
 
                     xhr1.onload = function (event) {
-                        if (xhr1.status == 201){
+                        if (xhr1.status == 201) {
                             cookie = JSON.stringify(response)
                             document.cookie = 'vote=' + cookie
-                            window.location = '/vote'
+
+                            var xhr2 = new XMLHttpRequest();
+                            xhr2.open("GET", "/mine_block");
+
+                            xhr2.onload = function (event) {
+                                response = JSON.parse(event.target.response)
+
+                                if (xhr2.status == 200) {
+                                    window.location = '/vote'
+                                }
+                                else {
+                                    $('.alert').removeClass('collapse').delay(2000).fadeIn(200, function () {
+                                        $('.alert').addClass('collapse')
+                                    })
+
+                                    document.getElementById('h3').innerHTML = response.message
+                                }
+                            }
+
+                            xhr2.send(null)
+
                         }
                     }
                     xhr1.send(JSON.stringify(response))
-                }   
+                }
                 else {
                     $('.alert').removeClass('collapse').delay(2000).fadeIn(200, function () {
                         $('.alert').addClass('collapse')

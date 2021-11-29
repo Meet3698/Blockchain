@@ -19,7 +19,11 @@
                 <div class="card-header header-elements-inline">
                     <h5 class="card-title mt-2">Vote Preview</h5>
                     <div class="header-elements">
-                        <div class="list-icons text-muted font-weight-light"> <a class="list-icons-item" data-action="collapse" data-abc="true"><i class="fa fa-minus font-weight-light"></i></a> <a class="list-icons-item" data-action="reload" data-abc="true"><i class="fa fa-refresh"></i></a> <a class="list-icons-item" data-action="remove" data-abc="true"><i class="fa fa-close"></i></a> </div>
+                        <div class="list-icons text-muted font-weight-light"> <a class="list-icons-item"
+                                data-action="collapse" data-abc="true"><i class="fa fa-minus font-weight-light"></i></a>
+                            <a class="list-icons-item" data-action="reload" data-abc="true"><i
+                                    class="fa fa-refresh"></i></a> <a class="list-icons-item" data-action="remove"
+                                data-abc="true"><i class="fa fa-close"></i></a> </div>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -42,6 +46,8 @@
             </div>
         </div>
 
+        <br>
+        <button class="btn btn-primary" onclick="show_result()">Result</button>
         <!-- <form action="javascript:send_data('Gryffindor','Parth Parmar')" method="POST"> -->
 
         <!-- <button type="submit" id="button" class="btn btn-primary" value="Gryffindor">Vote</button>
@@ -50,6 +56,11 @@
 </body>
 
 <script>
+
+    function show_result() {
+        window.location = '/result'
+    }
+
     cookies = document.cookie.split(';')
     for (var i = 0; i < cookies.length; i++) {
         c_value = cookies[i].split('=')
