@@ -1,26 +1,60 @@
 <html>
 
 <head>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
-    <h3>Result will be shown here</h3>
+    <div class="col justify-content-around" style="padding: 5% 12%">
 
-    <script>
-        var xhr = new XMLHttpRequest()
-        xhr.open("GET", "/get_chain")
+        <div id="addTable" class="table-responsive" style="">
+        </div>
 
-        xhr.onload = function (event) {
-            response = JSON.parse(event.target.response)
-            
-            for (var i=0; i< response.length; i++){
-                console.log(response.chain);
+        <script>
+            var xhr = new XMLHttpRequest()
+            xhr.open("GET", "/get_chain")
+
+            xhr.onload = function (event) {
+                response = JSON.parse(event.target.response)
+
+                var c, r, row = 1, t;
+                t = document.createElement('table');
+                t.className = "table table-hover"
+
+                r = t.insertRow(0);
+                r.style.cssText = "text-align: center; font-weight: bold;"
+                c1 = r.insertCell(0);
+                c2 = r.insertCell(1);
+                c3 = r.insertCell(2);
+
+                c1.innerHTML = "House";
+                c2.innerHTML = "Candidate Name";
+                c3.innerHTML = "Voter"
+
+                for (var i = 0; i < response.length; i++) {
+                    if (response.chain[i].transactions.length != 0) {
+                        transaction = response.chain[i].transactions[i - 1]
+                        console.log(response.chain[i].transactions);
+
+                        r = t.insertRow(row);
+                        c1 = r.insertCell(0);
+                        c2 = r.insertCell(1);
+                        c3 = r.insertCell(2);
+                        c1.innerHTML = transaction.house;
+                        c2.innerHTML = transaction.name;
+                        c3.innerHTML = transaction.pub_key;
+                        document.getElementById("addTable").appendChild(t);
+                        row++
+                    }
+                }
             }
-        }
 
-        xhr.send(null)
-    </script>
+            xhr.send(null)
+        </script>
+    </div>
 </body>
 
 </html>
