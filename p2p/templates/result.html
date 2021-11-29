@@ -20,45 +20,45 @@
             xhr.onload = function (event) {
                 response = JSON.parse(event.target.response)
 
-                if (response.flag == 1) {
-                    var xhr1 = new XMLHttpRequest()
-                    xhr1.open("GET", "/replace_chain")
 
-                    xhr1.onload = function (event) {
-                        response = JSON.parse(event.target.response)
+                var xhr1 = new XMLHttpRequest()
+                xhr1.open("GET", "/replace_chain")
 
-                        var c, r, row = 1, t;
-                        t = document.createElement('table');
-                        t.className = "table table-hover"
+                xhr1.onload = function (event) {
+                    response = JSON.parse(event.target.response)
 
-                        r = t.insertRow(0);
-                        r.style.cssText = "text-align: center; font-weight: bold;"
-                        c1 = r.insertCell(0);
-                        c2 = r.insertCell(1);
-                        c3 = r.insertCell(2);
+                    var c, r, row = 1, t;
+                    t = document.createElement('table');
+                    t.className = "table table-hover"
 
-                        c1.innerHTML = "House";
-                        c2.innerHTML = "Candidate Name";
-                        c3.innerHTML = "Voter"
+                    r = t.insertRow(0);
+                    r.style.cssText = "text-align: center; font-weight: bold;"
+                    c1 = r.insertCell(0);
+                    c2 = r.insertCell(1);
+                    c3 = r.insertCell(2);
 
-                        for (var i = 0; i < response.actual_chain.length; i++) {
-                            if (response.actual_chain[i].transactions.length != 0) {
-                                transaction = response.actual_chain[i].transactions[i - 1]
-                                console.log(response.actual_chain[i].transactions);
+                    c1.innerHTML = "House";
+                    c2.innerHTML = "Candidate Name";
+                    c3.innerHTML = "Voter"
 
-                                r = t.insertRow(row);
-                                c1 = r.insertCell(0);
-                                c2 = r.insertCell(1);
-                                c3 = r.insertCell(2);
-                                c1.innerHTML = transaction.house;
-                                c2.innerHTML = transaction.name;
-                                c3.innerHTML = transaction.pub_key;
-                                document.getElementById("addTable").appendChild(t);
-                                row++
-                            }
+                    for (var i = 0; i < response.actual_chain.length; i++) {
+                        if (response.actual_chain[i].transactions.length != 0) {
+                            transaction = response.actual_chain[i].transactions[i - 1]
+                            console.log(response.actual_chain[i].transactions);
+
+                            r = t.insertRow(row);
+                            c1 = r.insertCell(0);
+                            c2 = r.insertCell(1);
+                            c3 = r.insertCell(2);
+                            c1.innerHTML = transaction.house;
+                            c2.innerHTML = transaction.name;
+                            c3.innerHTML = transaction.pub_key;
+                            document.getElementById("addTable").appendChild(t);
+                            row++
                         }
                     }
                 }
+
                 xhr1.send(null)
 
             }
