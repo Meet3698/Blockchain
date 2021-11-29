@@ -1,9 +1,26 @@
 <html>
-    <head>
 
-    </head>
+<head>
 
-    <body>
-        <h3>Result will be shown here</h3>
-    </body>
+</head>
+
+<body>
+    <h3>Result will be shown here</h3>
+
+    <script>
+        var xhr = new XMLHttpRequest()
+        xhr.open("GET", "/get_chain")
+
+        xhr.onload = function (event) {
+            response = JSON.parse(event.target.response)
+            
+            for (var i=0; i< response.length; i++){
+                console.log(response.chain);
+            }
+        }
+
+        xhr.send(null)
+    </script>
+</body>
+
 </html>
