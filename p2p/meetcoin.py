@@ -96,8 +96,11 @@ def connect_node():
     if nodes is None:
         return 'No Node', 400
     for node in nodes:
-        print('Node --- ',node)
-        blockchain.add_node(node)
+        if node is host:
+            pass
+        else:
+            print('Node --- ',node)
+            blockchain.add_node(node)
     
     response = {
         'message' : 'All the nodes are now connected, The Meetcoin blockchain contains the following nodes : }',
