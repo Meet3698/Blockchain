@@ -12,8 +12,7 @@ import json
 import requests
 from urllib.parse import urlparse
 from uuid import uuid4
-import socket
-# from peer import *
+from constants import *
 
 #Creating Blockchain
 class Blockchain:
@@ -105,20 +104,20 @@ class Blockchain:
         max_length = len(self.chain)
 
         for nodes in network:
-            response = requests.get(f'http://{nodes}/get_chain')
-            if response.status_code == 200:
-                length = response.json()['length']
-                chain = response.json()['chain']
+            if nodes != str(host) + ':5000':
+                response = requests.get(f'http://{nodes}/get_chain')
+                if response.status_code == 200:
+                    length = response.json()['length']
+                    chain = response.json()['chain']
 
-                if length >= max_length and self.is_chain_valid(chain):
-                    max_length = length
-                    longest_chain = chain
-                    print('-----chain-----', longest_chain)
-                else:
-                    pass
+                    if length >= max_length and self.is_chain_valid(chain):
+                        max_length = length
+                        longest_chain = chain
+                        print('-----chain-----', longest_chain)
+                    else:
+                        pass
         
-        if len(longest_chain) is not 0:
-            print('------- in if of replace-------')
+        if len(longest_chain) != 0:
             self.chain = longest_chain
             return True
         else:
