@@ -110,35 +110,36 @@
                             cookie = JSON.stringify(response)
                             document.cookie = 'vote=' + cookie
 
-                            var xhr2 = new XMLHttpRequest()
-                            xhr2.open("GET", "/replace_chain")
+                            // var xhr2 = new XMLHttpRequest()
+                            // xhr2.open("GET", "/replace_chain")
 
-                            xhr2.onload = function (event) {
-                                var xhr3 = new XMLHttpRequest();
-                                xhr3.open("GET", "/mine_block");
+                            // xhr2.onload = function (event) {
+                            //     var xhr3 = new XMLHttpRequest();
+                            //     xhr3.open("GET", "/mine_block");
 
-                                xhr3.onload = function (event) {
-                                    response = JSON.parse(event.target.response)
+                            // xhr1.onload = function (event) {
+                            //     response = JSON.parse(event.target.response)
 
-                                    if (xhr3.status == 200) {
-                                        window.location = '/vote'
-                                    }
-                                    else {
-                                        $('.alert').removeClass('collapse').delay(2000).fadeIn(200, function () {
-                                            $('.alert').addClass('collapse')
-                                        })
-
-                                        document.getElementById('h3').innerHTML = response.message
-                                    }
-                                }
-
-                                xhr3.send(null)
-
-                            }
-
-                            xhr2.send(null)
-
+                            //     if (xhr3.status == 200) {
+                            window.location = '/vote'
+                            // }
                         }
+                        else {
+                            $('.alert').removeClass('collapse').delay(2000).fadeIn(200, function () {
+                                $('.alert').addClass('collapse')
+                            })
+
+                            document.getElementById('h3').innerHTML = response.message
+                        }
+                        // }
+
+                        //         xhr3.send(null)
+
+                        //     }
+
+                        //     xhr2.send(null)
+
+                        // }
                     }
                     xhr1.send(JSON.stringify(response))
                 }
