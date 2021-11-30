@@ -48,10 +48,11 @@
                             c2.innerHTML = "Candidate Name";
                             c3.innerHTML = "Voter"
 
-                            console.log(response.actual_chain);
+                            console.log(response);
+
                             for (var i = 0; i < response.chain.length; i++) {
                                 if (response.chain[i].transactions.length != 0) {
-                                    transaction = response.chain[i].transactions[i-1]
+                                    transaction = response.chain[i].transactions[0]
 
                                     r = t.insertRow(row);
                                     c1 = r.insertCell(0);
