@@ -103,18 +103,16 @@ class Blockchain:
         max_length = len(self.chain)
         h = str(host) + ':5000'
         for nodes in network:
-            print('----Nodes----',nodes)
             print(type(nodes),type(h))
             if nodes != h:
                 response = requests.get(f'http://{nodes}/get_chain')
-                print('-----resplonse------',response.status_code)
                 if response.status_code == 200:
                     length = response.json()['length']
                     chain = response.json()['chain']
 
                     print('-----In if --------',length,'---',max_length)
 
-                    if length >= max_length and self.is_chain_valid(chain):
+                    if length > max_length and self.is_chain_valid(chain):
                         max_length = length
                         longest_chain = chain
                         print('-----chain-----', longest_chain)

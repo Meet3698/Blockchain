@@ -29,8 +29,10 @@
                         var xhr2 = new XMLHttpRequest();
                         xhr2.open("GET", "/get_chain");
 
-                        xhr1.onload = function (event) {
+                        xhr2.onload = function (event) {
                             response = JSON.parse(event.target.response)
+
+                            console.log(response);
 
                             var c, r, row = 1, t;
                             t = document.createElement('table');
@@ -62,12 +64,11 @@
                                     row++
                                 }
                             }
-
-                            xhr2.send(null)
                         }
+                        xhr2.send(null)
                     }
-                    xhr1.send(null)
                 }
+                xhr1.send(null)
             }
             xhr.send(null)
         </script>
