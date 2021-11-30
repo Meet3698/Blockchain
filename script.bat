@@ -1,2 +1,2 @@
-cd "D:\NFSU\Research\blockchain\Project\blockchain_env\client_server\"
-python p2p.py
+python "D:\NFSU\Research\blockchain\Project\blockchain_env\p2p\meetcoin.py"
+

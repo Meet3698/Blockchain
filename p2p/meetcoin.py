@@ -99,7 +99,6 @@ def connect_node():
         if node is host:
             pass
         else:
-            print('Node --- ',node)
             blockchain.add_node(node)
     
     response = {

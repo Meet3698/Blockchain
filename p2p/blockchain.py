@@ -95,7 +95,6 @@ class Blockchain:
     def add_node(self, address):
         parsed_url = urlparse(address)
         url = parsed_url.path + ':5000'
-        print('URL in add_node --- ',url)
         self.nodes.append(url)
         print('In add_node ---',self.nodes)
 
@@ -114,9 +113,12 @@ class Blockchain:
                 if length >= max_length and self.is_chain_valid(chain):
                     max_length = length
                     longest_chain = chain
+                    print('-----chain-----', longest_chain)
                 else:
                     pass
-        if longest_chain:
+        
+        if len(longest_chain) is not 0:
+            print('------- in if of replace-------')
             self.chain = longest_chain
             return True
         else:
