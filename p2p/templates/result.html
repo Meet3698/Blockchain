@@ -25,47 +25,46 @@
                 xhr1.onload = function (event) {
                     response = JSON.parse(event.target.response)
 
-                    if (xhr1.status == 200) {
-                        var xhr2 = new XMLHttpRequest();
-                        xhr2.open("GET", "/get_chain");
+                    var xhr2 = new XMLHttpRequest();
+                    xhr2.open("GET", "/get_chain");
 
-                        xhr2.onload = function (event) {
-                            response = JSON.parse(event.target.response)
+                    xhr2.onload = function (event) {
+                        response = JSON.parse(event.target.response)
 
-                            // console.log(response.chain[i].transactions[i-1]);
+                        // console.log(response.chain[i].transactions[i-1]);
 
-                            var c, r, row = 1, t;
-                            t = document.createElement('table');
-                            t.className = "table table-hover"
+                        var c, r, row = 1, t;
+                        t = document.createElement('table');
+                        t.className = "table table-hover"
 
-                            r = t.insertRow(0);
-                            r.style.cssText = "text-align: center; font-weight: bold;"
-                            c1 = r.insertCell(0);
-                            c2 = r.insertCell(1);
-                            c3 = r.insertCell(2);
+                        r = t.insertRow(0);
+                        r.style.cssText = "text-align: center; font-weight: bold;"
+                        c1 = r.insertCell(0);
+                        c2 = r.insertCell(1);
+                        c3 = r.insertCell(2);
 
-                            c1.innerHTML = "House";
-                            c2.innerHTML = "Candidate Name";
-                            c3.innerHTML = "Voter"
+                        c1.innerHTML = "House";
+                        c2.innerHTML = "Candidate Name";
+                        c3.innerHTML = "Voter"
 
-                            console.log(response);
+                        console.log(response);
 
-                            for (var i = 0; i < response.chain.length; i++) {
-                                if (response.chain[i].transactions.length != 0) {
-                                    transaction = response.chain[i].transactions[0]
+                        for (var i = 0; i < response.chain.length; i++) {
+                            if (response.chain[i].transactions.length != 0) {
+                                transaction = response.chain[i].transactions[0]
 
-                                    r = t.insertRow(row);
-                                    c1 = r.insertCell(0);
-                                    c2 = r.insertCell(1);
-                                    c3 = r.insertCell(2);
-                                    c1.innerHTML = transaction.house;
-                                    c2.innerHTML = transaction.name;
-                                    c3.innerHTML = transaction.pub_key;
-                                    document.getElementById("addTable").appendChild(t);
-                                    row++
-                                }
+                                r = t.insertRow(row);
+                                c1 = r.insertCell(0);
+                                c2 = r.insertCell(1);
+                                c3 = r.insertCell(2);
+                                c1.innerHTML = transaction.house;
+                                c2.innerHTML = transaction.name;
+                                c3.innerHTML = transaction.pub_key;
+                                document.getElementById("addTable").appendChild(t);
+                                row++
                             }
                         }
+
                         xhr2.send(null)
                     }
                 }
