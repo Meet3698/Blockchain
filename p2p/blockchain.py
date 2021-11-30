@@ -118,8 +118,7 @@ class Blockchain:
                     pass
         if longest_chain:
             self.chain = longest_chain
-            print('-----In Replace -----')cls
-            activate
+            print('-----In Replace -----') 
             return True
         else:
             return False
