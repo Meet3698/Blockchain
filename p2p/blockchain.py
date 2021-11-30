@@ -99,16 +99,20 @@ class Blockchain:
 
     def replace_chain(self):
         network = self.nodes
-        print('In replace chain --- network --- ', network)        
         longest_chain = None
         max_length = len(self.chain)
-
+        h = str(host) + ':5000'
         for nodes in network:
-            if nodes != str(host) + ':5000':
+            print('----Nodes----',nodes)
+            print(type(nodes),type(h))
+            if nodes != h:
                 response = requests.get(f'http://{nodes}/get_chain')
+                print('-----resplonse------',response.status_code)
                 if response.status_code == 200:
                     length = response.json()['length']
                     chain = response.json()['chain']
+
+                    print('-----In if --------',length,'---',max_length)
 
                     if length >= max_length and self.is_chain_valid(chain):
                         max_length = length
@@ -116,8 +120,9 @@ class Blockchain:
                         print('-----chain-----', longest_chain)
                     else:
                         pass
-        
-        if len(longest_chain) != 0:
+            else:
+                pass            
+        if longest_chain:
             self.chain = longest_chain
             return True
         else:
