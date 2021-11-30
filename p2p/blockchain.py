@@ -63,6 +63,8 @@ class Blockchain:
         previous_block = chain[0]
         block_index = 1
         
+        print('-----In valid -----')
+
         while block_index < len(chain):
             block = chain[block_index]
             
@@ -78,6 +80,7 @@ class Blockchain:
             
             previous_block = block
             block_index += 1
+
         return True
 
     def add_transaction(self, pub_key, house, name):
@@ -107,13 +110,16 @@ class Blockchain:
             if response.status_code == 200:
                 length = response.json()['length']
                 chain = response.json()['chain']
-                if length > max_length and self.is_chain_valid(chain):
+
+                if length >= max_length and self.is_chain_valid(chain):
                     max_length = length
                     longest_chain = chain
                 else:
                     pass
         if longest_chain:
             self.chain = longest_chain
+            print('-----In Replace -----')cls
+            activate
             return True
         else:
             return False
