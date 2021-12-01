@@ -58,7 +58,9 @@ class Server:
 					# sys.exit()
 					self.disconnect_server()
 		except Exception as e:
-			sys.exit()
+			# sys.exit()
+			self.disconnect_server()
+
 	
 	def disconnect_client(self,connection,addr):
 		self.connections.remove(connection)
