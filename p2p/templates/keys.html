@@ -8,56 +8,75 @@
 </head>
 
 <body>
-        <div class="col justify-content-around" style="padding: 8% 30%">
+    <nav class="navbar navbar-light bg-light justify-content-between">
+        <a class="navbar-brand">Blockchain Based E-Voting System</a>
+        <button class="btn btn-primary" onclick="logout()">Logout</button>
+    </nav>
 
-            <div class="card border-dark mb-3" >
-                <div class="card-header">Your Private Key</div>
-                <div class="card-body text-dark">
-                    <textarea readonly class="form-control" id="priv_key" ></textarea>
-                </div>
+    <div class="col justify-content-around" style="padding: 8% 30%">
+
+        <div class="card border-dark mb-3">
+            <div class="card-header">Your Private Key</div>
+            <div class="card-body text-dark">
+                <textarea readonly class="form-control" id="priv_key"></textarea>
             </div>
-
-            <div class="card border-dark mb-3" >
-                <div class="card-header">Your Public Key</div>
-                <div class="card-body text-dark">
-                    <textarea readonly class="form-control" id="pub_key"></textarea>
-                </div>
-            </div>
-
-            <form action="/dashboard" method="GET">
-                <button type="submit" id="submit" class="btn btn-primary">Goto Dashboard</button>
-            </form>
-
-            <div class="alert alert-success collapse" role="alert">
-                Text Copied Successfully
-            </div>
-
         </div>
-        <script>
-            cookies = JSON.parse(document.cookie.split('=')[1])
 
-            document.getElementById('priv_key').innerHTML = cookies.priv_key
-            document.getElementById('pub_key').innerHTML = cookies.pub_key
+        <div class="card border-dark mb-3">
+            <div class="card-header">Your Public Key</div>
+            <div class="card-body text-dark">
+                <textarea readonly class="form-control" id="pub_key"></textarea>
+            </div>
+        </div>
 
-            document.getElementById('priv_key').onclick = function () {
-                this.select();
-                document.execCommand('copy');
-                $('.alert').removeClass('collapse').delay(2000).fadeIn(200,function(){
-                    $('.alert').addClass('collapse')
-                })
+        <form action="/dashboard" method="GET">
+            <button type="submit" id="submit" class="btn btn-primary">Goto Dashboard</button>
+        </form>
 
+        <div class="alert alert-success collapse" role="alert">
+            Text Copied Successfully
+        </div>
+
+    </div>
+    <script>
+        cookies = JSON.parse(document.cookie.split('=')[1])
+
+        document.getElementById('priv_key').innerHTML = cookies.priv_key
+        document.getElementById('pub_key').innerHTML = cookies.pub_key
+
+        document.getElementById('priv_key').onclick = function () {
+            this.select();
+            document.execCommand('copy');
+            $('.alert').removeClass('collapse').delay(2000).fadeIn(200, function () {
+                $('.alert').addClass('collapse')
+            })
+
+        }
+
+        $('.alert').addClass('collapse')
+
+        document.getElementById('pub_key').onclick = function () {
+            this.select();
+            document.execCommand('copy');
+            $('.alert').removeClass('collapse').delay(2000).fadeIn(200, function () {
+                $('.alert').addClass('collapse')
+            })
+        }
+
+        function logout() {
+            cookies = document.cookie.split(";")
+
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                console.log(name);
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
             }
 
-            $('.alert').addClass('collapse')
-
-            document.getElementById('pub_key').onclick = function () {
-                this.select();
-                document.execCommand('copy');
-                $('.alert').removeClass('collapse').delay(2000).fadeIn(200,function(){
-                    $('.alert').addClass('collapse')
-                })
-            }
-        </script>
+            window.location = '/'
+        }
+    </script>
 </body>
 
 </html>

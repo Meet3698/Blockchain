@@ -8,6 +8,13 @@
 </head>
 
 <body>
+
+    <nav class="navbar navbar-light bg-light justify-content-between">
+        <a class="navbar-brand">Blockchain Based E-Voting System</a>
+        <button class="btn btn-primary" onclick="logout()">Logout</button>
+    </nav>
+
+
     <div class="col justify-content-around" style="padding: 10% 25%">
 
         <div class="alert alert-success" id="alert" role="alert">
@@ -23,7 +30,8 @@
                                 data-action="collapse" data-abc="true"><i class="fa fa-minus font-weight-light"></i></a>
                             <a class="list-icons-item" data-action="reload" data-abc="true"><i
                                     class="fa fa-refresh"></i></a> <a class="list-icons-item" data-action="remove"
-                                data-abc="true"><i class="fa fa-close"></i></a> </div>
+                                data-abc="true"><i class="fa fa-close"></i></a>
+                        </div>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -72,6 +80,19 @@
         }
     }
 
+    function logout() {
+        cookies = document.cookie.split(";")
+
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            var eqPos = cookie.indexOf("=");
+            var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            console.log(name);
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        }
+
+        window.location = '/'
+    }
 </script>
 
 </html>

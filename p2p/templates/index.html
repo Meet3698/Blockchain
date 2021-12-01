@@ -10,7 +10,13 @@
 </head>
 
 <body>
-    <div class="col justify-content-around" style="padding: 13% 30%">
+
+    <nav class="navbar navbar-light bg-light justify-content-between">
+        <a class="navbar-brand">Blockchain Based E-Voting System</a>
+        <button class="btn btn-primary" onclick="logout()">Logout</button>
+    </nav>
+
+    <div class="col justify-content-around" style="padding: 11% 30%">
 
         <div class="alert alert-danger collapse" id="alert" role="alert">
             <p></p>
@@ -65,21 +71,21 @@
                     $('.alert').removeClass('collapse')
                     document.getElementById("alert").innerHTML = response.message
                 }
-                else if  (flag == 0){
+                else if (flag == 0) {
                     cookie = {
                         "priv_key": response.priv_key,
                         "pub_key": response.pub_key,
-                        'voter_id' : response.voter_id
+                        'voter_id': response.voter_id
                     }
 
                     document.cookie = "keys=" + JSON.stringify(cookie)
                     window.location = '/keys'
                 }
-                else if(flag == 3){
-                    document.cookie = "voter_id=" + JSON.stringify({'voter_id' : response.voter_id})
+                else if (flag == 3) {
+                    document.cookie = "voter_id=" + JSON.stringify({ 'voter_id': response.voter_id })
                     window.location = '/dashboard'
                 }
-                else{
+                else {
                     window.location = '/result'
                 }
             }
@@ -87,6 +93,19 @@
             xhr.send(data)
         }
 
+        function logout() {
+            cookies = document.cookie.split(";")
+
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                console.log(name);
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            }
+
+            window.location = '/'
+        }
     </script>
 </body>
 
