@@ -55,7 +55,8 @@ class Server:
 				elif data and data.decode('utf-8') == 'req':
 					self.send_peers()
 				else:
-					sys.exit()
+					# sys.exit()
+					self.disconnect_server()
 		except Exception as e:
 			sys.exit()
 	
