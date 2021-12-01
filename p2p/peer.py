@@ -2,12 +2,17 @@
 from client import *
 from server import *
 from db import *
-from constants import *
+
 class p2p:
     peers = []
 
 def main():
     db = DB()
+    
+    def get_ip_address():
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        return s.getsockname()[0]
 
     if db.collection_nodes.count() == 0:
         host = get_ip_address()

@@ -1,7 +1,6 @@
 from constants import *
 from db import *
 from blockchain import *
-from peer import *
 
 class Server:
 
@@ -17,7 +16,6 @@ class Server:
 			self.s.listen(1)
 
 			print("-" * 25 + " Server is running on " + host + "-" * 25)
-	
 			self.peers.append((s_addr[0],port))
 
 			db = DB()
@@ -27,8 +25,6 @@ class Server:
 			r = requests.get(url)
 			
 			for node in nodes:
-				# if node['node'] != host:
-				# 	p2p.peers = []
 				db.collection_nodes.update_one({'node' : node['node']},{ "$set": { 'node': host } })
 
 			while True:
@@ -43,7 +39,6 @@ class Server:
 				self.connections.append(connection)
 				print('{} connected!!'.format(addr))
 		except Exception as e:
-			print('--- lol ===')
 			sys.exit()
 
 	def handler(self,connection, addr):
@@ -62,14 +57,15 @@ class Server:
 		except Exception as e:
 			sys.exit()
 	
-
-	
 	def disconnect_client(self,connection,addr):
 		self.connections.remove(connection)
 		self.peers.remove(addr)
 		connection.close()
 		self.send_peers()
 		print('{} disconnected!!'.format(addr))
+
+	def disconnect_server(self):
+		self.s.close()
 
 	def send_peers(self):
 		peer_list = ""

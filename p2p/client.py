@@ -27,7 +27,6 @@ class Client:
 
 			if not data:
 				print('Server Failed!!')
-				
 				raise SystemExit  
 			elif data[0:1] == b'\x11':
 				print('Got peers\n')
