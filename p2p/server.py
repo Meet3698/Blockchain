@@ -17,11 +17,9 @@ class Server:
 			self.s.listen(1)
 
 			print("-" * 25 + " Server is running on " + host + "-" * 25)
+	
 			self.peers.append((s_addr[0],port))
 
-			if get_ip_address() != p2p.peers[0]:
-				p2p.peers = [] 
-		
 			db = DB()
 			nodes = db.collection_nodes.find()
 
