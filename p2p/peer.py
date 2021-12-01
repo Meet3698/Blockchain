@@ -40,7 +40,7 @@ def main():
                     pass
 
                 try:
-                    Server(p2p.peers)
+                    Server()
                 except KeyboardInterrupt:
                     sys.exit(0)
                 except:

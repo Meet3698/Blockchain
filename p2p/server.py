@@ -4,7 +4,7 @@ from blockchain import *
 
 class Server:
 
-	def __init__(self,s_addr):
+	def __init__(self):
 		try:
 			self.connections = []
 			self.peers = []
@@ -16,7 +16,7 @@ class Server:
 			self.s.listen(1)
 
 			print("-" * 25 + " Server is running on " + host + "-" * 25)
-			self.peers.append((s_addr[0],port))
+			self.peers.append((host,port))
 
 			db = DB()
 			nodes = db.collection_nodes.find()
