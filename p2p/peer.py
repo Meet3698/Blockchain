@@ -16,11 +16,7 @@ def main():
     else:
         nodes = db.collection_nodes.find()
         for node in nodes:
-            if node == get_ip_address():
-                p2p.peers.append(node['node'])
-            else:
-                db.collection_nodes.insert_one({'node':get_ip_address()})
-                p2p.peers.append(get_ip_address())
+            p2p.peers.append(node['node'])
     print('p2p peers -- ',p2p.peers)
 
     while True:
