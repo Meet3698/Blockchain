@@ -2,7 +2,6 @@ import json
 from time import sleep
 from constants import *
 import requests
-from db import *
 
 from peer import *
 
@@ -27,10 +26,8 @@ class Client:
 			data = self.recieve_message()
 
 			if not data:
-				db = DB() 
 				print('Server Failed!!')
-				server = db.collection_nodes.find()
-				db.collection_nodes.update_one({'node' : server['node']},{ "$set": { 'node': '' } })
+				
 				raise SystemExit  
 			elif data[0:1] == b'\x11':
 				print('Got peers\n')

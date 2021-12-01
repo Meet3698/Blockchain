@@ -27,6 +27,8 @@ class Server:
 			r = requests.get(url)
 			
 			for node in nodes:
+				# if node['node'] != host:
+				# 	p2p.peers = []
 				db.collection_nodes.update_one({'node' : node['node']},{ "$set": { 'node': host } })
 
 			while True:
