@@ -41,6 +41,7 @@ class Server:
 				self.connections.append(connection)
 				print('{} connected!!'.format(addr))
 		except Exception as e:
+			print('--- lol ===')
 			sys.exit()
 
 	def handler(self,connection, addr):
@@ -55,11 +56,10 @@ class Server:
 				elif data and data.decode('utf-8') == 'req':
 					self.send_peers()
 				else:
-					# sys.exit()
-					self.disconnect_server()
+					sys.exit()
 		except Exception as e:
-			# sys.exit()
-			self.disconnect_server()
+			sys.exit()
+	
 
 	
 	def disconnect_client(self,connection,addr):
@@ -68,10 +68,6 @@ class Server:
 		connection.close()
 		self.send_peers()
 		print('{} disconnected!!'.format(addr))
-
-	def disconnect_server(self):
-		print('---in close server-----')
-		self.s.close()
 
 	def send_peers(self):
 		peer_list = ""
