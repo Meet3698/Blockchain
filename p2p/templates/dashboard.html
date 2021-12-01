@@ -61,12 +61,13 @@
                             <td>Slytherin</td>
                             <td>Meet Patel</td>
                             <td>
-                                <form action="javascript:send_data('Slytherin')" method="POST">
+                                <form action="javascript:send_data('Slytherin','Meet Patel')" method="POST">
                                     <div class="form-group">
                                         <input type="text" id="Slytherin" name="priv_key" class="form-control"
                                             placeholder="Enter Your Private Key">
                                     </div>
-                                    <button type="submit" id="button" class="btn btn-primary">Vote</button>
+                                    <button type="submit" id="button" class="btn btn-primary"
+                                        value="Slytherin">Vote</button>
                                 </form>
                             </td>
                         </tr>
@@ -84,7 +85,6 @@
             xhr.open("POST", "/verify")
 
             var priv_key = document.getElementById(vote)
-            // var vote = document.getElementById("button")
 
             data = {
                 'priv_key': priv_key['value'],
