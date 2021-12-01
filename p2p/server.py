@@ -68,6 +68,7 @@ class Server:
 		print('{} disconnected!!'.format(addr))
 
 	def disconnect_server(self):
+		print('---in close server-----')
 		self.s.close()
 
 	def send_peers(self):
