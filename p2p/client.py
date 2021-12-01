@@ -33,7 +33,6 @@ class Client:
 
 				url = 'http://' + str(host) + ':5000/get_chain'
 				r = requests.get(url)
-				print(r)
 				
 				self.update_peers(data[1:])
 
@@ -61,11 +60,10 @@ class Client:
 		sys.exit(0)
 
 	def update_peers(self,peers):
-		print('In update peers --- ', str(peers,'utf-8').split(',')[:-1])
 		p2p.peers = str(peers,'utf-8').split(',')[:-1]
 		print('Updated peers --- ', p2p.peers)
 		sleep(2)
 		
 		url = 'http://' + str(host) + ':5000/connect_node'
 		r = requests.post(url, data = json.dumps({'peer' : p2p.peers}))
-		print(r)
+

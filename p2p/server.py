@@ -23,14 +23,12 @@ class Server:
 
 			url = 'http://' + str(host) + ':5000/get_chain'
 			r = requests.get(url)
-			print(r)
 			
 			for node in nodes:
 				db.collection_nodes.update_one({'node' : node['node']},{ "$set": { 'node': host } })
 
 			while True:
 				connection, addr = self.s.accept()
-				print('type of addr --- ',type(addr))
 				self.peers.append(addr)
 				print('Peers are {}'.format(self.peers))
 
@@ -67,20 +65,17 @@ class Server:
 		print('{} disconnected!!'.format(addr))
 
 	def disconnect_server(self):
-		Blockchain.s_flag = 0
 		self.s.close()
 
 	def send_peers(self):
 		peer_list = ""
 		network = []
-		print('In send_peer --- ',self.peers)
 		for peer in self.peers:
 			network.append(peer[0])
 			peer_list = peer_list + str(peer[0]) + ","
 
 		url = 'http://' + str(host) + ':5000/connect_node'
 		r = requests.post(url, data = json.dumps({'peer' : network}))
-		print(r)
 
 		for connection in self.connections:
 			data = peer_byte_difference + bytes(peer_list,'utf-8')

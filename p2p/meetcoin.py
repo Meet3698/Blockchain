@@ -21,8 +21,6 @@ db = DB()
 
 @app.route('/mine_block',methods = ['GET'])
 def mine_block():
-    print('--------Mine_block--------')
-
     if(len(blockchain.transactions) != 0):
         previous_block = blockchain.get_previous_block()
         previous_proof = previous_block['proof']
@@ -91,12 +89,9 @@ def connect_node():
     nodes = req['peer']
     blockchain.nodes = []
 
-    print('In connect_node --- ',nodes)
-
     if nodes is None:
         return 'No Node', 400
     for node in nodes:
-        print('Node --- ',node)
         blockchain.add_node(node)
     
     response = {
@@ -124,7 +119,6 @@ def replace_chain():
 
 @app.route('/disconnect',methods = ['GET'])
 def disconnect():
-    print('Flag --- ',Blockchain.s_flag)
     return jsonify({'key' : Blockchain.s_flag}), 200
    
 @app.route('/', methods = ['GET'])
@@ -210,7 +204,6 @@ def verify():
         return jsonify(response),200 
 
     except:
-        print(req['priv_key'])
         response = {
             'message' : 'fail'
         }
