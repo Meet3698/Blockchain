@@ -98,6 +98,7 @@ class Blockchain:
         longest_chain = None
         max_length = len(self.chain)
         h = str(host) + ':5000'
+        print(network)
         for nodes in network:
             if nodes != h:
                 response = requests.get(f'http://{nodes}/get_chain')
